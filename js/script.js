@@ -117,3 +117,11 @@ function localDescCreated(desc) {
     onError
   );
 }
+
+function copy_link() {
+  $('#hidden_url').val(window.location.href);
+  $('#hidden_url').select();
+  var successful = document.execCommand('copy');  
+  var msg = successful ? 'successful' : 'unsuccessful';  
+  console.log('Copy email command was ' + msg);  
+}
