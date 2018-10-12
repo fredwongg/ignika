@@ -103,6 +103,7 @@ function startWebRTC(isOfferer) {
       }, onError);
     } else if (message.candidate) {
       // Add the new ICE candidate to our connections remote description
+      console.log(message.candidate);
       pc.addIceCandidate(
         new RTCIceCandidate(message.candidate), onSuccess, onError
       );
@@ -123,5 +124,5 @@ function copy_link() {
   $('#hidden_url').select();
   var successful = document.execCommand('copy');  
   var msg = successful ? 'successful' : 'unsuccessful';  
-  console.log('Copy email command was ' + msg);  
+  console.log('Copy link: ' + msg);  
 }
