@@ -75,7 +75,7 @@ function getId() {
 function pageLoad() {
     let urlId = getId();
     showMyFace();
-    if (urlId.length > 2) {
+    if (urlId) {
         database = firebase.database().ref('video/' + urlId);
         database.on('child_added', readMessage);
         showFriendsFace();
