@@ -60,14 +60,14 @@ function listenTo(id) {
 }
 
 function getLink() {
-    let url = "https://ignika.azurewebsites.net/" + yourId;
+    let url = "https://ignika.azurewebsites.net/#" + yourId;
     // show and attempt to copy to clipboard
     console.log(url);
 }
 
 function getId() {
     let url = window.location.pathname;
-    return url.substring(url.lastIndexOf('/') + 1);
+    return url.substring(url.lastIndexOf('#') + 1);
 }  
 
 
