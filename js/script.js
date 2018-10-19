@@ -78,7 +78,7 @@ function pageLoad() {
     if (urlId) {
         database = firebase.database().ref('video/' + urlId);
         database.on('child_added', readMessage);
-        showFriendsFace();
+        $("#start_chat").show();
     } else {
         database = firebase.database().ref('video/' + yourId);
         database.on('child_added', readMessage);

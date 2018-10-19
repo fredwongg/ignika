@@ -18,22 +18,26 @@
   <!-- Latest compiled JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
   <link rel="stylesheet" type="text/css" href="css/style.css">
- 
+
 </head>
 
 <body>
   <div class="container-fluid main-box">
 
-      <div id="video_container">
-          <video id="yourVideo" autoplay muted playsinline></video>
-          <video id="friendsVideo" autoplay playsinline></video>
-          <br />
-        </div>
-        <button class="btn btn-dark" id="get_link" onclick="getLink()" style="display: none;">Get link</button>
-        
+    <div class="row" id="video_container">
+      <div class="col-6" id="yourVideoBlock">
+        <video id="yourVideo" autoplay muted playsinline></video>
       </div>
+      <div class="col-6" id="yourVideoBlock">
+        <video id="friendsVideo" autoplay playsinline></video>
+      </div>
+    </div>
+    <button class="btn btn-dark" id="get_link" onclick="getLink()" style="display: none;">Get link</button>
+    <button class="btn btn-dark" id="start_chat" onclick="showFriendsFace()" style="display: none;">Get link</button>
 
-  <script src="https://www.gstatic.com/firebasejs/5.5.4/firebase.js"></script>  
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/5.5.4/firebase.js"></script>
   <script src="js/script.js"></script>
 </body>
 
