@@ -67,7 +67,8 @@ function getLink() {
 
 function getId() {
     let url = window.location.href;
-    return url.substring(url.lastIndexOf('#') + 1);
+        return url.split('#')[1];
+    ;
 }  
 
 
