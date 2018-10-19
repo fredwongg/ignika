@@ -1,41 +1,102 @@
-// Initialize the FirebaseUI Widget using Firebase.
-var ui = new firebaseui.auth.AuthUI(firebase.auth());
-
-ui.start('#firebaseui-auth-container', {
-    signInOptions: [
-        firebase.auth.EmailAuthProvider.PROVIDER_ID
-    ],
-    // Other config options...
+firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+        // User is signed in.
+        userMenuView();
+        $("#nav_profile").click();
+        var displayName = user.displayName;
+        var email = user.email;
+        var uid = user.uid;
+        
+        console.log("you logged in");
+    } else {
+        // User is signed out.
+        guestMenuView();
+        
+    }
 });
 
-var uiConfig = {
-    callbacks: {
-        signInSuccessWithAuthResult: function (authResult, redirectUrl) {
-            // User successfully signed in.
-            // Return type determines whether we continue the redirect automatically
-            // or whether we leave that to developer to handle.
-            return true;
-        },
-        uiShown: function () {
-            // The widget is rendered.
-            // Hide the loader.
-            document.getElementById('loader').style.display = 'none';
-        }
-    },
-    // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
-    signInFlow: 'popup',
-    signInSuccessUrl: '<url-to-redirect-to-on-success>',
-    signInOptions: [
-        // Leave the lines as is for the providers you want to offer your users.
-        firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-        firebase.auth.GithubAuthProvider.PROVIDER_ID,
-        firebase.auth.EmailAuthProvider.PROVIDER_ID
-    ],
-    // Terms of service url.
-    tosUrl: '<your-tos-url>',
-    // Privacy policy url.
-    privacyPolicyUrl: '<your-privacy-policy-url>'
-};
+var database = firebase.database().ref();
 
-// The start method will wait until the DOM is loaded.
-ui.start('#firebaseui-auth-container', uiConfig);
+function writeUserData(userId, email) {
+    firebase.database().ref('users/' + userId).set({
+      email : email
+    });
+  }
+
+
+// registration block
+// ################################################################
+function registerUser(email, password) {
+    firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // ...
+        console.log(errorMessage);
+    }).then(function() {
+        var user = firebase.auth().currentUser;
+        if (user != null) {
+            writeUserData(user.uid, user.email);
+        }
+    });
+}
+
+function processRegisterForm(e) {
+    if (e.preventDefault) e.preventDefault();
+    var remail = $("#r_email").val();
+    var rpwd = $("#r_pwd").val();
+    var rrpwd = $("#rr_pwd").val();
+    /* do what you want with the form */
+    
+    registerUser(remail, rpwd);
+    
+    // You must return false to prevent the default form behavior
+    return false;
+}
+
+var register_form = document.getElementById('register_form');
+if (register_form.attachEvent) {
+    register_form.attachEvent("submit", processRegisterForm);
+} else {
+    register_form.addEventListener("submit", processRegisterForm);
+}
+// ################################################################
+
+// login block 
+// ################################################################
+function loginUser(email, password) {
+    firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // ...
+        console.log(errorMessage);
+    });
+}
+
+function processLoginForm(e) {
+    if (e.preventDefault) e.preventDefault();
+    var lemail = $("#l_email").val();
+    var lpwd = $("#l_pwd").val();
+    /* do what you want with the form */
+    loginUser(lemail, lpwd);
+    // You must return false to prevent the default form behavior
+    return false;
+}
+
+var login_form = document.getElementById('login_form');
+if (login_form.attachEvent) {
+    login_form.attachEvent("submit", processLoginForm);
+} else {
+    login_form.addEventListener("submit", processLoginForm);
+}
+
+// signout block
+// 
+function logOut () {
+    firebase.auth().signOut().then(function() {
+        //alert('Signed Out');
+      }, function(error) {
+        //alert('Sign Out Error', error);
+      });
+}
