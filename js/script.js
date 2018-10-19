@@ -79,9 +79,9 @@ function pageLoad() {
         database.on('child_added', readMessage);
         showFriendsFace();
     } else {
-        database = firebase.database().ref('video/' + urlId);
+        database = firebase.database().ref('video/' + yourId);
         database.on('child_added', readMessage);
-        $("$get_link").show();
+        $("#get_link").show();
     }
 }
 
