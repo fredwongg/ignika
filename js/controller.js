@@ -1,4 +1,4 @@
-//showMyFace();
+showMyFace();
 
 $("#nav_profile, #nav_auth, #nav_video, #nav_contacts, #nav_about, #nav_logout").each(function () {
     $(this).click(function () {
@@ -7,13 +7,16 @@ $("#nav_profile, #nav_auth, #nav_video, #nav_contacts, #nav_about, #nav_logout")
     })
 })
 
-function addFriend(email) {
-    //var userId = firebase.auth().currentUser.uid;
+function pageLoad() {
+    let url = getId();
+    if (url.length > 2) {
 
-    
-    datas = firebase.database().ref('users').orderByChild('email').equalTo(email);
-    datas.on('child_added', function(data) {
-        console.log(data)
-    })
-    //console.log(data);
+    } else {
+        
+    }
+}
+
+function getId() {
+    let url = window.location.pathname;
+    return url.substring(url.lastIndexOf('/') + 1);
 }

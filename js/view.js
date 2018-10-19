@@ -19,7 +19,7 @@ function guestMenuView() {
 
 function userMenuView() {
     hideMenu();
-    $("#nav_profile, #nav_video, #nav_contacts, #nav_about, #nav_logout").each(function () {
+    $("#nav_profile, #nav_video, #nav_about, #nav_logout").each(function () {
         $(this).show();
     });
 }

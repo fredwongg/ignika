@@ -5,3 +5,7 @@ video {
   width: 320px;
   height: 240px;
 }
+
+.main-box {
+  text-align: center;
+}
