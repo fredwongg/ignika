@@ -22,18 +22,21 @@
 </head>
 
 <body>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-bottom">
+      
+            <a class="navbar-brand" href="#">ignika</a>
+        <button class="btn btn-info" id="get_link" onclick="getLink()" style="display: none;">Get link</button>
+        <button class="btn btn-info" id="start_chat" onclick="showFriendsFace()" style="display: none;">Call</button>
+    
+      </nav>
   <div class="container-fluid main-box">
 
     <div class="row" id="video_container">
-      <div class="col-6" id="yourVideoBlock">
-        <video id="yourVideo" autoplay muted playsinline></video>
-      </div>
-      <div class="col-6" id="yourVideoBlock">
-        <video id="friendsVideo" autoplay playsinline></video>
-      </div>
+        <video id="yourVideo" autoplay muted ></video>
+        <video id="friendsVideo" autoplay playsinline hidden></video>
     </div>
     <button class="btn btn-dark" id="get_link" onclick="getLink()" style="display: none;">Get link</button>
-    <button class="btn btn-dark" id="start_chat" onclick="showFriendsFace()" style="display: none;">Get link</button>
+    <button class="btn btn-info" id="start_chat" onclick="showFriendsFace()" style="display: none;">Call</button>
 
   </div>
 

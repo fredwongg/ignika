@@ -17,7 +17,8 @@ var yourId = Math.floor(Math.random()*1000000000); // put firebase uid, huh?
 var servers = {'iceServers': [{'urls': 'stun:stun.services.mozilla.com'}, {'urls': 'stun:stun.l.google.com:19302'}, {'urls': 'turn:numb.viagenie.ca','credential': 'beaver','username': 'webrtc.websitebeaver@gmail.com'}]};
 var pc = new RTCPeerConnection(servers);
 pc.onicecandidate = (event => event.candidate?sendMessage(yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
-pc.onaddstream = (event => friendsVideo.srcObject = event.stream);
+
+pc.onaddstream = (event => createVideoFrame("hell",event.stream));
 
 pageLoad();
 function sendMessage(senderId, data) {
@@ -41,6 +42,15 @@ function readMessage(data) {
     }
 };
 
+function createVideoFrame(id, src) {
+    var video = $('<video />', {
+        id: id,
+        src: src,
+        autoplay: true,
+        playsinline: true
+    });
+    video.appendTo($('#video_container'));
+}
 
 function showMyFace() {
   navigator.mediaDevices.getUserMedia({audio:true, video:true})

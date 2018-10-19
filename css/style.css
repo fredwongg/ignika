@@ -1,8 +1,23 @@
+body {
+  background-color: gainsboro;
+}
+
 video {
   background-color: #ddd;
+  border: solid 1px black;
   border-radius: 7px;
   margin: 10px 0px 0px 10px;
+  max-width: 45vw;
+}
 
+@media only screen and (max-width: 600px) {
+  video {
+    background-color: #ddd;
+    border-radius: 7px;
+    margin: auto;
+    max-height: 45vh;
+    max-width: 90vw;  
+  }
 }
 
 .main-box {
