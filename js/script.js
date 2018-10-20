@@ -13,12 +13,8 @@ var database;
 var userVideo;
 var yourVideo = document.getElementById("yourVideo");
 var videoArray = [];
-var counter = -1;
-videoArray.push($("#v01"));
-videoArray.push($("#v02"));
-videoArray.push($("#v03"));
-videoArray.push($("#v04"));
-videoArray.push($("#v05"));
+var counter = 0;
+
 console.log(videoArray);
 var friendsVideo = document.getElementById("friendsVideo");
 var yourId = Math.floor(Math.random()*1000000000); // put firebase uid, huh?
@@ -27,7 +23,7 @@ var servers = {'iceServers': [{'urls': 'stun:stun.services.mozilla.com'}, {'urls
 var pc = new RTCPeerConnection(servers);
 pc.onicecandidate = (event => event.candidate?sendMessage(yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
 
-pc.onaddstream = (event => videoArray[++counter].srcObject = event.stream);
+pc.onaddstream = (event => document.getElementById("v0"+ (++counter)).srcObject = event.stream);
 
 pageLoad();
 function sendMessage(senderId, data) {
