@@ -42,13 +42,13 @@ function readMessage(data) {
     }
 };
 
-function createVideoFrame(src) {
+function createVideoFrame( src) {
     var video = $('<video />', {
         autoplay: true,
         playsinline: true
     });
-    video.srcObject = src;
     video.appendTo($('#video_container'));
+    video.srcObject = src;
 }
 
 function showMyFace() {
