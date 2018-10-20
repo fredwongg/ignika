@@ -12,6 +12,14 @@ firebase.initializeApp(config);
 var database;
 var userVideo;
 var yourVideo = document.getElementById("yourVideo");
+var videoArray = [];
+var counter = -1;
+videoArray.push($("#v01"));
+videoArray.push($("#v02"));
+videoArray.push($("#v03"));
+videoArray.push($("#v04"));
+videoArray.push($("#v05"));
+console.log(videoArray);
 var friendsVideo = document.getElementById("friendsVideo");
 var yourId = Math.floor(Math.random()*1000000000); // put firebase uid, huh?
 //Create an account on Viagenie (http://numb.viagenie.ca/), and replace {'urls': 'turn:numb.viagenie.ca','credential': 'websitebeaver','username': 'websitebeaver@email.com'} with the information from your account
@@ -19,11 +27,8 @@ var servers = {'iceServers': [{'urls': 'stun:stun.services.mozilla.com'}, {'urls
 var pc = new RTCPeerConnection(servers);
 pc.onicecandidate = (event => event.candidate?sendMessage(yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
 
-//pc.onaddstream = (event => createVideoFrame().srcObject = event.stream);
-pc.onaddstream = (event => function() {
-    createVideoFrame(Math.floor(Math.random()*1000000000));
-    userVideo.srcObject = event.stream;
-});
+pc.onaddstream = (event => videoArray[++counter].srcObject = event.stream);
+
 pageLoad();
 function sendMessage(senderId, data) {
     var msg = database.push({ sender: senderId, message: data });
