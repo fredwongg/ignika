@@ -10,6 +10,7 @@ var config = {
 firebase.initializeApp(config);
 
 var database;
+var userVideo;
 var yourVideo = document.getElementById("yourVideo");
 var friendsVideo = document.getElementById("friendsVideo");
 var yourId = Math.floor(Math.random()*1000000000); // put firebase uid, huh?
@@ -18,8 +19,11 @@ var servers = {'iceServers': [{'urls': 'stun:stun.services.mozilla.com'}, {'urls
 var pc = new RTCPeerConnection(servers);
 pc.onicecandidate = (event => event.candidate?sendMessage(yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
 
-pc.onaddstream = (event => createVideoFrame().srcObject = event.stream);
-
+//pc.onaddstream = (event => createVideoFrame().srcObject = event.stream);
+pc.onaddstream = (event => function() {
+    createVideoFrame(Math.floor(Math.random()*1000000000));
+    userVideo.srcObject = event.stream;
+});
 pageLoad();
 function sendMessage(senderId, data) {
     var msg = database.push({ sender: senderId, message: data });
@@ -42,19 +46,21 @@ function readMessage(data) {
     }
 };
 
-function createVideoFrame() {
+function createVideoFrame(id) {
     var video = $('<video />', {
-        autoplay: true,
-        playsinline: true
+        id : id,
+        autoplay: true
     });
     video.appendTo($('#video_container'));
-    return video;
+    userVideo = document.getElementById(id);
+    userVideo.setAttribute('autoplay', true);
+    //return $("#" + id);
     //video.srcObject = src;
 }
 
 function showMyFace() {
   navigator.mediaDevices.getUserMedia({audio:true, video:true})
-    .then(stream => yourVideo.srcObject = stream)
+     .then(stream => yourVideo.srcObject = stream)
     .then(stream => pc.addStream(stream));
 }
 
