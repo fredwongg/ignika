@@ -18,7 +18,7 @@ var servers = {'iceServers': [{'urls': 'stun:stun.services.mozilla.com'}, {'urls
 var pc = new RTCPeerConnection(servers);
 pc.onicecandidate = (event => event.candidate?sendMessage(yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
 
-pc.onaddstream = (event => createVideoFrame("hell",event.stream));
+pc.onaddstream = (event => createVideoFrame(event.stream));
 
 pageLoad();
 function sendMessage(senderId, data) {
@@ -42,9 +42,9 @@ function readMessage(data) {
     }
 };
 
-function createVideoFrame(id, src) {
+function createVideoFrame(src) {
     var video = $('<video />', {
-        id: id,
+  
         src: src,
         autoplay: true,
         playsinline: true
