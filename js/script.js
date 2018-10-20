@@ -44,11 +44,10 @@ function readMessage(data) {
 
 function createVideoFrame(src) {
     var video = $('<video />', {
-  
-        src: src,
         autoplay: true,
         playsinline: true
     });
+    video.srcObject = src;
     video.appendTo($('#video_container'));
 }
 
