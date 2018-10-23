@@ -12,7 +12,7 @@ firebase.initializeApp(config);
 var database;
 var userVideo;
 var yourVideo = document.getElementById("yourVideo");
-
+var counter = 0;
 
 var friendsVideo = document.getElementById("friendsVideo");
 var yourId = Math.floor(Math.random()*1000000000); // put firebase uid, huh?
