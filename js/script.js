@@ -16,16 +16,29 @@ var yourVideo = document.getElementById("yourVideo");
 
 var friendsVideo = document.getElementById("friendsVideo");
 var yourId = Math.floor(Math.random()*1000000000); // put firebase uid, huh?
-//Create an account on Viagenie (http://numb.viagenie.ca/), and replace {'urls': 'turn:numb.viagenie.ca','credential': 'websitebeaver','username': 'websitebeaver@email.com'} with the information from your account
 var servers = {'iceServers': [{'urls': 'stun:stun.services.mozilla.com'}, {'urls': 'stun:stun.l.google.com:19302'}, {'urls': 'turn:numb.viagenie.ca','credential': 'beaver','username': 'webrtc.websitebeaver@gmail.com'}]};
 var pc = new RTCPeerConnection(servers);
 pc.onicecandidate = (event => event.candidate?sendMessage(yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
 
 //pc.onaddstream = (event => document.getElementById("v0"+ (++counter)).srcObject = event.stream);
-pc.onaddstream = (event => friendsVideo.srcObject = event.stream);
+//pc.onaddstream = (event => friendsVideo.srcObject = event.stream);
 
+pc.oniceconnectionstatechange = function() {
+    if(pc.iceConnectionState == 'disconnected') {
+        console.log('Disconnected');
+    }
+}
 
-pageLoad();
+pc.onaddstream = function(event) {
+    document.getElementById("v0"+ (++counter)).srcObject = event.stream;
+    console.log(event);
+}
+
+//pageLoad();
+database = firebase.database().ref('video/' + urlId);
+database.on('child_added', readMessage);
+$('#start_chat').show();
+
 function sendMessage(senderId, data) {
     var msg = database.push({ sender: senderId, message: data });
     msg.remove();
