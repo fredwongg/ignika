@@ -35,7 +35,7 @@ pc.onaddstream = function(event) {
 }
 
 //pageLoad();
-database = firebase.database().ref('video/' + urlId);
+database = firebase.database().ref('video/');
 database.on('child_added', readMessage);
 $('#start_chat').show();
 
