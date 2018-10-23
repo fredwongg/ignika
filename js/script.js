@@ -22,6 +22,7 @@ pc.onicecandidate = (event => event.candidate?sendMessage(yourId, JSON.stringify
 
 //pc.onaddstream = (event => document.getElementById("v0"+ (++counter)).srcObject = event.stream);
 //pc.onaddstream = (event => friendsVideo.srcObject = event.stream);
+showMyFace();
 
 pc.oniceconnectionstatechange = function() {
     if(pc.iceConnectionState == 'disconnected') {
