@@ -9,7 +9,7 @@ var config = {
   };
 firebase.initializeApp(config);
 
-var userlist;
+var userlist = [];
 var database;
 var userVideo;
 var yourVideo = document.getElementById("yourVideo");
