@@ -62,11 +62,12 @@ function sendMessage(senderId, data) {
 function readMessage(data) {
     var msg = JSON.parse(data.val().message);
     var sender = data.val().sender;
+    console.log(msg);
     if (sender != yourId) {
         //$(friendsVideo).show();
         if ($.inArray(sender, userlist) == (-1)) {
             userlist.push(sender);
-            var pc = pc1;
+           pc = pc1;
         }
         if (msg.ice != undefined) {
             pc.addIceCandidate(new RTCIceCandidate(msg.ice));
