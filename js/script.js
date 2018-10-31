@@ -77,9 +77,9 @@ function readMessage(data) {
         }
         else if (msg.sdp.type == "offer") {
               pc.setRemoteDescription(new RTCSessionDescription(msg.sdp))
-              .then(() => pc1.createAnswer())
-              .then(answer => pc1.setLocalDescription(answer))
-              .then(() => sendMessage(yourId, JSON.stringify({'sdp': pc1.localDescription})));
+              .then(() => pc.createAnswer())
+              .then(answer => pc.setLocalDescription(answer))
+              .then(() => sendMessage(yourId, JSON.stringify({'sdp': pc.localDescription})));
         }
         else if (msg.sdp.type == "answer")
             pc.setRemoteDescription(new RTCSessionDescription(msg.sdp));
