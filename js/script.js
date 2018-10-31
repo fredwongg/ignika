@@ -70,8 +70,8 @@ function readMessage(data) {
         //$(friendsVideo).show();
         if ($.inArray(sender, userlist) == (-1)) {
             userlist.push(sender);
-           pc = connection_list[connection_counter++];
-        }
+        } 
+        pc = connection_list[userlist.indexOf(sender)];
         if (msg.ice != undefined) {
             pc.addIceCandidate(new RTCIceCandidate(msg.ice));
         }
