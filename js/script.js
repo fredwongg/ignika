@@ -23,6 +23,8 @@ var servers = {'iceServers': [{'urls': 'stun:stun.services.mozilla.com'}, {'urls
 //pc1.onaddstream = (event => document.getElementById("v0"+ (++counter)).srcObject = event.stream);
 //pc1.onaddstream = (event => friendsVideo.srcObject = event.stream);
 
+var connection_counter = 0;
+var connection_list = [];
 var pc;
 var pc1 = new RTCPeerConnection(servers);
 var pc2 = new RTCPeerConnection(servers);
@@ -47,7 +49,8 @@ pc2.oniceconnectionstatechange = function() {
         console.log('Disconnected');
     }
 }
-
+connection_list.push(pc1);
+connection_list.push(pc2);
 
 //pageLoad();
 database = firebase.database().ref('video/');
@@ -67,7 +70,7 @@ function readMessage(data) {
         //$(friendsVideo).show();
         if ($.inArray(sender, userlist) == (-1)) {
             userlist.push(sender);
-           pc = pc1;
+           pc = connection_list[connection_counter++];
         }
         if (msg.ice != undefined) {
             pc.addIceCandidate(new RTCIceCandidate(msg.ice));
