@@ -9,6 +9,7 @@ var config = {
   };
 firebase.initializeApp(config);
 
+var userlist;
 var database;
 var userVideo;
 var yourVideo = document.getElementById("yourVideo");
@@ -17,23 +18,36 @@ var counter = 0;
 var friendsVideo = document.getElementById("friendsVideo");
 var yourId = Math.floor(Math.random()*1000000000); // put firebase uid, huh?
 var servers = {'iceServers': [{'urls': 'stun:stun.services.mozilla.com'}, {'urls': 'stun:stun.l.google.com:19302'}, {'urls': 'turn:numb.viagenie.ca','credential': 'beaver','username': 'webrtc.websitebeaver@gmail.com'}]};
-var pc = new RTCPeerConnection(servers);
-pc.onicecandidate = (event => event.candidate?sendMessage(yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
 
-//pc.onaddstream = (event => document.getElementById("v0"+ (++counter)).srcObject = event.stream);
-//pc.onaddstream = (event => friendsVideo.srcObject = event.stream);
-showMyFace();
 
-pc.oniceconnectionstatechange = function() {
-    if(pc.iceConnectionState == 'disconnected') {
+//pc1.onaddstream = (event => document.getElementById("v0"+ (++counter)).srcObject = event.stream);
+//pc1.onaddstream = (event => friendsVideo.srcObject = event.stream);
+
+var pc;
+var pc1 = new RTCPeerConnection(servers);
+var pc2 = new RTCPeerConnection(servers);
+pc1.onicecandidate = (event => event.candidate?sendMessage(yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
+pc1.onaddstream = (event => {
+    document.getElementById("v01").srcObject = event.stream;
+    console.log(event);
+})
+
+pc1.oniceconnectionstatechange = function() {
+    if(pc1.iceConnectionState == 'disconnected') {
+        console.log('Disconnected');
+    }
+}
+pc2.onicecandidate = (event => event.candidate?sendMessage(yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
+pc2.onaddstream = (event => {
+    document.getElementById("v02").srcObject = event.stream;
+    console.log(event);
+})
+pc2.oniceconnectionstatechange = function() {
+    if(pc2.iceConnectionState == 'disconnected') {
         console.log('Disconnected');
     }
 }
 
-pc.onaddstream = function(event) {
-    document.getElementById("v0"+ (++counter)).srcObject = event.stream;
-    console.log(event);
-}
 
 //pageLoad();
 database = firebase.database().ref('video/');
@@ -49,14 +63,20 @@ function readMessage(data) {
     var msg = JSON.parse(data.val().message);
     var sender = data.val().sender;
     if (sender != yourId) {
-        $(friendsVideo).show();
-        if (msg.ice != undefined)
+        //$(friendsVideo).show();
+        if ($.inArray(sender, userlist) == (-1)) {
+            userlist.push(sender);
+            var pc = pc1;
+        }
+        if (msg.ice != undefined) {
             pc.addIceCandidate(new RTCIceCandidate(msg.ice));
-        else if (msg.sdp.type == "offer")
-            pc.setRemoteDescription(new RTCSessionDescription(msg.sdp))
-              .then(() => pc.createAnswer())
-              .then(answer => pc.setLocalDescription(answer))
-              .then(() => sendMessage(yourId, JSON.stringify({'sdp': pc.localDescription})));
+        }
+        else if (msg.sdp.type == "offer") {
+              pc.setRemoteDescription(new RTCSessionDescription(msg.sdp))
+              .then(() => pc1.createAnswer())
+              .then(answer => pc1.setLocalDescription(answer))
+              .then(() => sendMessage(yourId, JSON.stringify({'sdp': pc1.localDescription})));
+        }
         else if (msg.sdp.type == "answer")
             pc.setRemoteDescription(new RTCSessionDescription(msg.sdp));
     }
@@ -77,13 +97,17 @@ function createVideoFrame(id) {
 function showMyFace() {
   navigator.mediaDevices.getUserMedia({audio:true, video:true})
      .then(stream => yourVideo.srcObject = stream)
-    .then(stream => pc.addStream(stream));
+    .then(stream => pc1.addStream(stream));
 }
 
-function showFriendsFace() {
-  pc.createOffer()
-    .then(offer => pc.setLocalDescription(offer) )
-    .then(() => sendMessage(yourId, JSON.stringify({'sdp': pc.localDescription})) );
+function callFriends() {
+  pc1.createOffer()
+    .then(offer => pc1.setLocalDescription(offer) )
+    .then(() => sendMessage(yourId, JSON.stringify({'sdp': pc1.localDescription})) );
+
+    pc2.createOffer()
+    .then(offer => pc2.setLocalDescription(offer) )
+    .then(() => sendMessage(yourId, JSON.stringify({'sdp': pc2.localDescription})) );
 }
 
 function listenTo(id) {
@@ -131,3 +155,6 @@ function copyLink() {
         document.body.removeChild(el);
       };
 }
+
+
+showMyFace();
