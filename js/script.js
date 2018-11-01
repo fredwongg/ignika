@@ -57,3 +57,4 @@ function callFriends() {
 }
 
 showMyFace();
+$('#start_chat').show();
