@@ -64,6 +64,11 @@ function getNodeId(friendId) {
     }
 }
 
+function callFriends() {
+    for (i = 0; i < user_list.length; i++) {
+        callFriend(user_list[i]);
+    }
+}
 
 function getUserCount() {
     return firebase.database().ref('/lobby').once('value').then(function (snapshot) {
