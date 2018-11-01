@@ -104,7 +104,7 @@ function readMessage(data) {
     //console.log(data);
     let msg = JSON.parse(data.val().message);
     var sender = data.val().sender;
-    console.log(msg + "|" + sender);
+    console.log(msg);
     if (sender != yourId) {
         let pc = getConnection(sender);
         if (msg.ice != undefined) {
