@@ -45,8 +45,8 @@ function getConnection(friendId) {
     }
 }
 
-firebase.database().ref('/lobby/1/users/' + yourId).set(true);
-firebase.database().ref('/lobby/1/users/').on('child_added', function (snapshot) {
+firebase.database().ref('/lobby/' + lobbyId +'/users/' + yourId).set(true);
+firebase.database().ref('/lobby/' + lobbyId +'/users/').on('child_added', function (snapshot) {
     console.log(snapshot.key);
     if (snapshot.key != yourId) {
         createConnection(snapshot.key);
