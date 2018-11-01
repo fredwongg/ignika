@@ -6,27 +6,72 @@ var config = {
     projectId: "ignika-79b0b",
     storageBucket: "ignika-79b0b.appspot.com",
     messagingSenderId: "112520978396"
-  };
+};
 firebase.initializeApp(config);
+const servers = { 'iceServers': [{ 'urls': 'stun:stun.services.mozilla.com' }, { 'urls': 'stun:stun.l.google.com:19302' }, { 'urls': 'turn:numb.viagenie.ca', 'credential': 'beaver', 'username': 'webrtc.websitebeaver@gmail.com' }] };
 
-var userlist = [];
-var database;
 var userVideo;
 var yourVideo = document.getElementById("yourVideo");
-var counter = 0;
 var lobbyId;
 var friendsVideo = document.getElementById("friendsVideo");
-var yourId = Math.floor(Math.random()*1000000000); // put firebase uid, huh?
-var servers = {'iceServers': [{'urls': 'stun:stun.services.mozilla.com'}, {'urls': 'stun:stun.l.google.com:19302'}, {'urls': 'turn:numb.viagenie.ca','credential': 'beaver','username': 'webrtc.websitebeaver@gmail.com'}]};
+var yourId = Math.floor(Math.random() * 1000000000); // put firebase uid, huh?
+
+var connection_list = [];
+var user_list = [];
+
+var pc;
+var yourStream;
+pageLoad();
+function createConnection(friendId) {
+    var pc = new RTCPeerConnection(servers);
+    pc.onicecandidate = (event => event.candidate ? sendMessage(getNodeId(friendId), yourId, JSON.stringify({ 'ice': event.candidate })) : console.log("Sent All Ice"));
+    pc.onaddstream = (event => {
+        document.getElementById("v0" + user_list.indexOf[friendId]).srcObject = event.stream;
+        console.log(event);
+    })
+    pc.oniceconnectionstatechange = function () {
+        if (pc.iceConnectionState == 'disconnected') {
+            console.log('Disconnected');
+        }
+    }
+    pc.addStream(yourStream)
+    connection_list.push(pc);
+    user_list.push(friendId);
+}
+
+function getConnection(friendId) {
+    let x = user_list.indexOf(friendId);
+    if (x >= 0) {
+        return connection_list[x];
+    }
+}
+
+firebase.database().ref('/lobby/1/users/' + yourId).set(true);
+firebase.database().ref('/lobby/1/users/').on('child_added', function (snapshot) {
+    console.log(snapshot.key);
+    if (snapshot.key != yourId) {
+        createConnection(snapshot.key);
+        var msg = firebase.database().ref('/lobby/' + lobbyId + '/connections/' + getNodeId(snapshot.key)).push({ sender: senderId, message: data });
+
+    }
+
+});
+firebase.database().ref('/lobby/' + lobbyId + '/connections/').on('child_added', function (snapshot) {
+    console.log(snapshot);
+    readMessage(snapshot);
+});
+
+function getNodeId(friendId) {
+    if (yourId > friendId) {
+        return "" + friendId + yourId;
+    } else {
+        return "" + yourId + friendId;
+    }
+}
 
 
-//pc1.onaddstream = (event => document.getElementById("v0"+ (++counter)).srcObject = event.stream);
-//pc1.onaddstream = (event => friendsVideo.srcObject = event.stream);
-//firebase.database().ref('/lobby').push({ yourId });
-firebase.database().ref('/lobby/' + yourId).set(true);
-firebase.database().ref('/lobby/' + yourId).on('child_added', readMessage);
 function getUserCount() {
-    return firebase.database().ref('/lobby').once('value').then(function(snapshot) {
+    return firebase.database().ref('/lobby').once('value').then(function (snapshot) {
         let r = Object.keys(snapshot.val());
         for (i = 0; i < r.length; i++) {
             if (r[i] != yourId) {
@@ -35,66 +80,25 @@ function getUserCount() {
                 pc = connection_list[i];
 
                 pc.createOffer()
-                .then(offer => pc.setLocalDescription(offer) )
-                .then(() => sendMessage(yourId, JSON.stringify({'sdp': pc.localDescription})) );
+                    .then(offer => pc.setLocalDescription(offer))
+                    .then(() => sendMessage(yourId, JSON.stringify({ 'sdp': pc.localDescription })));
             }
         }
         console.log(r);
-        
+
         //lobbyId = snapshot.val().users;
         //firebase.database().ref('lobby/').set({ users:  ++snapshot.val().users});
-      });
+    });
 }
-//getUserCount();
 
-window.onbeforeunload = function(){
-    firebase.database().ref('lobby/' + yourId).remove();
- }
-
-var connection_counter = 0;
-var connection_list = [];
-var pc;
-var pc1 = new RTCPeerConnection(servers);
-var pc2 = new RTCPeerConnection(servers);
-pc1.onicecandidate = (event => event.candidate?sendMessage(yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
-pc1.onaddstream = (event => {
-    document.getElementById("v01").srcObject = event.stream;
-    console.log(event);
-})
-
-pc1.oniceconnectionstatechange = function() {
-    if(pc1.iceConnectionState == 'disconnected') {
-        console.log('Disconnected');
-    }
+window.onbeforeunload = function () {
+    firebase.database().ref('/lobby/' + lobbyId + '/users/' + yourId).remove();
 }
-pc2.onicecandidate = (event => event.candidate?sendMessage(yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
-pc2.onaddstream = (event => {
-    document.getElementById("v02").srcObject = event.stream;
-    console.log(event);
-})
-pc2.oniceconnectionstatechange = function() {
-    if(pc2.iceConnectionState == 'disconnected') {
-        console.log('Disconnected');
-    }
-}
-connection_list.push(pc1);
-connection_list.push(pc2);
-
-//pageLoad();
-database = firebase.database().ref('video/');
-database.on('child_added', readMessage);
-
-
 
 $('#start_chat').show();
 
-//function sendMessage(senderId, data) {
- //   var msg = database.push({ sender: senderId, message: data });
-  //  msg.remove();
-//}
-
-function sendMessage(senderId, data) {
-    var msg = database.push({ sender: senderId, message: data });
+function sendMessage(nodeId, senderId, data) {
+    let msg = firebase.database().ref('/lobby/' + lobbyId + '/connections/' + nodeId).push({ sender: senderId, message: data });
     msg.remove();
 }
 
@@ -103,19 +107,15 @@ function readMessage(data) {
     var sender = data.val().sender;
     console.log(msg);
     if (sender != yourId) {
-        //$(friendsVideo).show();
-        if ($.inArray(sender, userlist) == (-1)) {
-            userlist.push(sender);
-        } 
-        pc = connection_list[userlist.indexOf(sender)];
+        let pc = getConnection(sender);
         if (msg.ice != undefined) {
             pc.addIceCandidate(new RTCIceCandidate(msg.ice));
         }
         else if (msg.sdp.type == "offer") {
-              pc.setRemoteDescription(new RTCSessionDescription(msg.sdp))
-              .then(() => pc.createAnswer())
-              .then(answer => pc.setLocalDescription(answer))
-              .then(() => sendMessage(yourId, JSON.stringify({'sdp': pc.localDescription})));
+            pc.setRemoteDescription(new RTCSessionDescription(msg.sdp))
+                .then(() => pc.createAnswer())
+                .then(answer => pc.setLocalDescription(answer))
+                .then(() => sendMessage(getNodeId(sender), yourId, JSON.stringify({ 'sdp': pc.localDescription })));
         }
         else if (msg.sdp.type == "answer")
             pc.setRemoteDescription(new RTCSessionDescription(msg.sdp));
@@ -124,7 +124,7 @@ function readMessage(data) {
 
 function createVideoFrame(id) {
     var video = $('<video />', {
-        id : id,
+        id: id,
         autoplay: true
     });
     video.appendTo($('#video_container'));
@@ -135,25 +135,18 @@ function createVideoFrame(id) {
 }
 
 function showMyFace() {
-  navigator.mediaDevices.getUserMedia({audio:true, video:true})
-     .then(stream => yourVideo.srcObject = stream)
-    .then(stream => pc1.addStream(stream));
+    navigator.mediaDevices.getUserMedia({ audio: true, video: true })
+        .then(stream => yourVideo.srcObject = stream)
+        .then(stream => yourStream = stream);
 }
 
 function callFriends() {
-  pc1.createOffer()
-    .then(offer => pc1.setLocalDescription(offer) )
-    .then(() => sendMessage(yourId, JSON.stringify({'sdp': pc1.localDescription})) );
-
-    pc2.createOffer()
-    .then(offer => pc2.setLocalDescription(offer) )
-    .then(() => sendMessage(yourId, JSON.stringify({'sdp': pc2.localDescription})) );
+    pc1.createOffer()
+        .then(offer => pc1.setLocalDescription(offer))
+        .then(() => sendMessage(yourId, JSON.stringify({ 'sdp': pc1.localDescription })));
 }
 
-function listenTo(id) {
-    database = firebase.database().ref('video/' + id);
-    database.on('child_added', readMessage);
-}
+
 
 function getLink() {
     let url = "https://ignika.azurewebsites.net/#" + yourId;
@@ -163,22 +156,17 @@ function getLink() {
 
 function getId() {
     let url = window.location.href;
-        return url.split('#')[1];
-    ;
-}  
+    return url.split('#')[1];
+}
 
 
 function pageLoad() {
     let urlId = getId();
     showMyFace();
     if (urlId) {
-        database = firebase.database().ref('video/' + urlId);
-        database.on('child_added', readMessage);
-        $("#start_chat").show();
+        // $("#start_chat").show();
     } else {
-        database = firebase.database().ref('video/' + yourId);
-        database.on('child_added', readMessage);
-        $("#get_link").show();
+        //$("#get_link").show();
     }
 }
 
@@ -193,8 +181,8 @@ function copyLink() {
         el.select();
         document.execCommand('copy');
         document.body.removeChild(el);
-      };
+    };
 }
 
 
-showMyFace();
+//showMyFace();
