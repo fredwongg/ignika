@@ -57,7 +57,7 @@ firebase.database().ref('/lobby/1/users/').on('child_added', function (snapshot)
 });
 firebase.database().ref('/lobby/' + lobbyId + '/connections/').on('child_added', function (snapshot) {
     console.log(snapshot);
-    readMessage(snapshot);
+    readMessage(snapshot.data);
 });
 
 function getNodeId(friendId) {
@@ -102,7 +102,7 @@ function sendMessage(nodeId, senderId, data) {
 }
 
 function readMessage(data) {
-    var msg = JSON.parse(data.val().message);
+    let msg = JSON.parse(data.val().message);
     var sender = data.val().sender;
     console.log(msg);
     if (sender != yourId) {
