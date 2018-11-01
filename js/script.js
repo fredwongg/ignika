@@ -12,7 +12,7 @@ const servers = { 'iceServers': [{ 'urls': 'stun:stun.services.mozilla.com' }, {
 
 var userVideo;
 var yourVideo = document.getElementById("yourVideo");
-var lobbyId;
+var lobbyId = 0;
 var friendsVideo = document.getElementById("friendsVideo");
 var yourId = Math.floor(Math.random() * 1000000000); // put firebase uid, huh?
 
