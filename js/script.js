@@ -102,10 +102,8 @@ function sendMessage(nodeId, senderId, data) {
 function readMessage(data) {
     console.log(data);
     console.log(data.val());
-    console.log(data.val());
-    let msg = JSON.parse(data.val().val().message);
+    let msg = JSON.parse(data.val().message);
     var sender = data.val().sender;
-    console.log(msg);
     if (sender != yourId) {
         let pc = getConnection(sender);
         if (msg.ice != undefined) {
