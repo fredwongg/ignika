@@ -19,17 +19,14 @@ var yourId = Math.floor(Math.random() * 1000000000); // put firebase uid, huh?
 var connection_list = [];
 var user_list = [];
 
-var pc;
+
 var yourStream;
 pageLoad();
 function createConnection(friendId) {
     var pc = new RTCPeerConnection(servers);
     pc.onicecandidate = (event => event.candidate ? sendMessage(getNodeId(friendId), yourId, JSON.stringify({ 'ice': event.candidate })) : console.log("Sent All Ice"));
     console.log("createConnection");
-    pc.onaddstream = (event => {
-        document.getElementById("v0" + user_list.indexOf[friendId]).srcObject = event.stream;
-        console.log(event);
-    })
+    pc.onaddstream = (event => document.getElementById("v0" + user_list.indexOf[friendId]).srcObject = event.stream);
     pc.oniceconnectionstatechange = function () {
         if (pc.iceConnectionState == 'disconnected') {
             console.log('Disconnected');
@@ -89,12 +86,10 @@ function readMessage(data) {
     //console.log(data);
     let msg = JSON.parse(data.val().message);
     var sender = data.val().sender;
-    console.log(sender);
     if (sender != yourId) {
         let pc = getConnection(sender);
         if (msg.ice != undefined) {
             console.log("got candidate");
-            console.log(msg.ice);
             pc.addIceCandidate(new RTCIceCandidate(msg.ice));
         }
         else if (msg.sdp.type == "offer") {
