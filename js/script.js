@@ -25,6 +25,7 @@ pageLoad();
 function createConnection(friendId) {
     var pc = new RTCPeerConnection(servers);
     pc.onicecandidate = (event => event.candidate ? sendMessage(getNodeId(friendId), yourId, JSON.stringify({ 'ice': event.candidate })) : console.log("Sent All Ice"));
+    console.log("createConnection");
     pc.onaddstream = (event => {
         document.getElementById("v0" + user_list.indexOf[friendId]).srcObject = event.stream;
         console.log(event);
