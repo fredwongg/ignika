@@ -9,14 +9,14 @@ var config = {
   };
 firebase.initializeApp(config);
 //stable build 0.1
-var database = firebase.database().ref();
+var database = firebase.database();
 var yourVideo = document.getElementById("yourVideo");
 var friendsVideo = document.getElementById("friendsVideo");
 var yourId = Math.floor(Math.random()*1000000000);
 //Create an account on Viagenie (http://numb.viagenie.ca/), and replace {'urls': 'turn:numb.viagenie.ca','credential': 'websitebeaver','username': 'websitebeaver@email.com'} with the information from your account
 const servers = {'iceServers': [{'urls': 'stun:stun.services.mozilla.com'}, {'urls': 'stun:stun.l.google.com:19302'}, {'urls': 'turn:numb.viagenie.ca','credential': 'beaver','username': 'webrtc.websitebeaver@gmail.com'}]};
 var myStream;
-
+var lobbyId = 0;
 var connection_list = [];
 function createConnection() {
     let pc = new RTCPeerConnection(servers);
@@ -28,7 +28,7 @@ function createConnection() {
 }
 
 function sendMessage(senderId, data) {
-    var msg = database.push({ sender: senderId, message: data });
+    var msg = database.ref('/lobby/' + lobbyId + '/connections/').push({ sender: senderId, message: data });
     msg.remove();
 }
 
@@ -49,7 +49,7 @@ function readMessage(data) {
     }
 };
 
-database.on('child_added', readMessage);
+database.ref('/lobby/' + lobbyId + '/connections/').on('child_added', readMessage);
 
 function showMyFace() {
   navigator.mediaDevices.getUserMedia({audio:true, video:true})
