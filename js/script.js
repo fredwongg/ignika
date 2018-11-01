@@ -102,6 +102,7 @@ function sendMessage(nodeId, senderId, data) {
 function readMessage(data) {
     console.log(data);
     console.log(data.val());
+    console.log(data.val().message);
     let msg = JSON.parse(data.val().message);
     var sender = data.val().sender;
     console.log(msg);
