@@ -18,12 +18,16 @@ const servers = {'iceServers': [{'urls': 'stun:stun.services.mozilla.com'}, {'ur
 var myStream;
 var lobbyId = 0;
 var connection_list = [];
+
+firebase.database().ref('/lobby/' + lobbyId +'/users/' + yourId).set(true);
+
 function createConnection() {
     let pc = new RTCPeerConnection(servers);
     pc.onicecandidate = (event => event.candidate?sendMessage(yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
     pc.onaddstream = (event => friendsVideo.srcObject = event.stream);
     navigator.mediaDevices.getUserMedia({audio:true, video:true})
     .then(stream => pc.addStream(stream));
+    database.ref('/lobby/' + lobbyId + '/connections/').on('child_added', readMessage);
     connection_list.push(pc);
 }
 
@@ -49,7 +53,6 @@ function readMessage(data) {
     }
 };
 
-database.ref('/lobby/' + lobbyId + '/connections/').on('child_added', readMessage);
 
 function showMyFace() {
   navigator.mediaDevices.getUserMedia({audio:true, video:true})
