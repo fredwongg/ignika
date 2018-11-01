@@ -22,25 +22,25 @@ var user_list = [];
 
 
 
-function createConnection() {
+function createConnection(friendId) {
     let pc = new RTCPeerConnection(servers);
     pc.onicecandidate = (event => event.candidate?sendMessage(yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
     pc.onaddstream = (event => friendsVideo.srcObject = event.stream);
     navigator.mediaDevices.getUserMedia({audio:true, video:true})
     .then(stream => pc.addStream(stream));
-    database.ref('/lobby/' + lobbyId + '/connections/').on('child_added', readMessage);
+    database.ref('/lobby/' + lobbyId + '/connections/' + getNodeId(friendId)).on('child_added', readMessage);
     connection_list.push(pc);
 }
 
 function sendMessage(senderId, data) {
-    var msg = database.ref('/lobby/' + lobbyId + '/connections/').push({ sender: senderId, message: data });
+    var msg = database.ref('/lobby/' + lobbyId + '/connections/' + getNodeId(friendId)).push({ sender: senderId, message: data });
     msg.remove();
 }
 
 function readMessage(data) {
     var msg = JSON.parse(data.val().message);
     var sender = data.val().sender;
-    pc = connection_list[0];
+    pc = getConnection(sender);
     if (sender != yourId) {
         if (msg.ice != undefined)
             pc.addIceCandidate(new RTCIceCandidate(msg.ice));
