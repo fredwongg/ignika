@@ -51,7 +51,7 @@ firebase.database().ref('/lobby/1/users/').on('child_added', function (snapshot)
     console.log(snapshot.key);
     if (snapshot.key != yourId) {
         createConnection(snapshot.key);
-        var msg = firebase.database().ref('/lobby/' + lobbyId + '/connections/' + getNodeId(snapshot.key)).push({ sender: senderId, message: data });
+        var msg = firebase.database().ref('/lobby/' + lobbyId + '/connections/' + getNodeId(snapshot.key)).push({ sender: yourId, message: data });
 
     }
 
