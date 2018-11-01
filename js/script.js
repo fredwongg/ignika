@@ -18,8 +18,9 @@ const servers = {'iceServers': [{'urls': 'stun:stun.services.mozilla.com'}, {'ur
 var myStream;
 var lobbyId = 0;
 var connection_list = [];
+var user_list = [];
 
-firebase.database().ref('/lobby/' + lobbyId +'/users/' + yourId).set(true);
+
 
 function createConnection() {
     let pc = new RTCPeerConnection(servers);
@@ -65,5 +66,28 @@ function showFriendsFace() {
     .then(offer => pc.setLocalDescription(offer) )
     .then(() => sendMessage(yourId, JSON.stringify({'sdp': pc.localDescription})) );
 }
+
+function getNodeId(friendId) {
+    if (yourId > friendId) {
+        return "" + friendId + yourId;
+    } else {
+        return "" + yourId + friendId;
+    }
+}
+
+function getConnection(friendId) {
+    let x = user_list.indexOf(friendId);
+    if (x >= 0) {
+        return connection_list[x];
+    }
+}
 showMyFace();
-createConnection();
+firebase.database().ref('/lobby/' + lobbyId +'/users/' + yourId).set(true);
+firebase.database().ref('/lobby/' + lobbyId +'/users/').on('child_added', function (snapshot) {
+    console.log(snapshot.key);
+    if (snapshot.key != yourId) {
+        createConnection();
+    }
+
+});
+//createConnection();
