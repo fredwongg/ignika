@@ -65,7 +65,9 @@ function getNodeId(friendId) {
 }
 
 function callFriends() {
+    
     for (i = 0; i < user_list.length; i++) {
+        console.log("called a friend: " + user_list[i]);
         callFriend(user_list[i]);
     }
 }
