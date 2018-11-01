@@ -14,7 +14,7 @@ var database;
 var userVideo;
 var yourVideo = document.getElementById("yourVideo");
 var counter = 0;
-
+var lobbyId;
 var friendsVideo = document.getElementById("friendsVideo");
 var yourId = Math.floor(Math.random()*1000000000); // put firebase uid, huh?
 var servers = {'iceServers': [{'urls': 'stun:stun.services.mozilla.com'}, {'urls': 'stun:stun.l.google.com:19302'}, {'urls': 'turn:numb.viagenie.ca','credential': 'beaver','username': 'webrtc.websitebeaver@gmail.com'}]};
@@ -22,6 +22,34 @@ var servers = {'iceServers': [{'urls': 'stun:stun.services.mozilla.com'}, {'urls
 
 //pc1.onaddstream = (event => document.getElementById("v0"+ (++counter)).srcObject = event.stream);
 //pc1.onaddstream = (event => friendsVideo.srcObject = event.stream);
+//firebase.database().ref('/lobby').push({ yourId });
+firebase.database().ref('/lobby/' + yourId).set(true);
+firebase.database().ref('/lobby/' + yourId).on('child_added', readMessage);
+function getUserCount() {
+    return firebase.database().ref('/lobby').once('value').then(function(snapshot) {
+        let r = Object.keys(snapshot.val());
+        for (i = 0; i < r.length; i++) {
+            if (r[i] != yourId) {
+                console.log(r[i]);
+                firebase.database().ref('/lobby/' + r[i]).set();
+                pc = connection_list[i];
+
+                pc.createOffer()
+                .then(offer => pc.setLocalDescription(offer) )
+                .then(() => sendMessage(yourId, JSON.stringify({'sdp': pc.localDescription})) );
+            }
+        }
+        console.log(r);
+        
+        //lobbyId = snapshot.val().users;
+        //firebase.database().ref('lobby/').set({ users:  ++snapshot.val().users});
+      });
+}
+//getUserCount();
+
+window.onbeforeunload = function(){
+    firebase.database().ref('lobby/' + yourId).remove();
+ }
 
 var connection_counter = 0;
 var connection_list = [];
@@ -55,11 +83,19 @@ connection_list.push(pc2);
 //pageLoad();
 database = firebase.database().ref('video/');
 database.on('child_added', readMessage);
+
+
+
 $('#start_chat').show();
+
+//function sendMessage(senderId, data) {
+ //   var msg = database.push({ sender: senderId, message: data });
+  //  msg.remove();
+//}
 
 function sendMessage(senderId, data) {
     var msg = database.push({ sender: senderId, message: data });
-    //msg.remove();
+    msg.remove();
 }
 
 function readMessage(data) {
