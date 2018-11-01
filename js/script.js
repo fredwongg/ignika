@@ -70,24 +70,6 @@ function callFriends() {
     }
 }
 
-function getUserCount() {
-    return firebase.database().ref('/lobby').once('value').then(function (snapshot) {
-        let r = Object.keys(snapshot.val());
-        for (i = 0; i < r.length; i++) {
-            if (r[i] != yourId) {
-                console.log(r[i]);
-                firebase.database().ref('/lobby/' + r[i]).set();
-                pc = connection_list[i];
-
-            }
-        }
-        console.log(r);
-
-        //lobbyId = snapshot.val().users;
-        //firebase.database().ref('lobby/').set({ users:  ++snapshot.val().users});
-    });
-}
-
 window.onbeforeunload = function () {
     firebase.database().ref('/lobby/' + lobbyId + '/users/' + yourId).remove();
 }
@@ -146,6 +128,7 @@ function showMyFace() {
 
 function callFriend(friendId) {
     let pc = getConnection(friendId);
+    console.log("called friend: " + friendId);
     pc.createOffer()
         .then(offer => pc.setLocalDescription(offer))
         .then(() => sendMessage(getNodeId(friendId), yourId, JSON.stringify({ 'sdp': pc.localDescription })));
