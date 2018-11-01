@@ -22,7 +22,8 @@ function createConnection() {
     let pc = new RTCPeerConnection(servers);
     pc.onicecandidate = (event => event.candidate?sendMessage(yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
     pc.onaddstream = (event => friendsVideo.srcObject = event.stream);
-    pc.addStream(myStream);
+    navigator.mediaDevices.getUserMedia({audio:true, video:true})
+    .then(stream => pc.addStream(stream));
     connection_list.push(pc);
 }
 
@@ -52,8 +53,7 @@ database.on('child_added', readMessage);
 
 function showMyFace() {
   navigator.mediaDevices.getUserMedia({audio:true, video:true})
-    .then(stream => yourVideo.srcObject = stream)
-    .then(stream => myStream = stream);
+    .then(stream => yourVideo.srcObject = stream);
 }
 
 function showFriendsFace() {
