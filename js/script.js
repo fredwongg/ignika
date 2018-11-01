@@ -51,7 +51,6 @@ firebase.database().ref('/lobby/1/users/').on('child_added', function (snapshot)
     console.log(snapshot.key);
     if (snapshot.key != yourId) {
         createConnection(snapshot.key);
-        callFriend(snapshot.key);
     }
 
 });
