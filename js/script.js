@@ -110,13 +110,16 @@ function readMessage(data) {
             pc.addIceCandidate(new RTCIceCandidate(msg.ice));
         }
         else if (msg.sdp.type == "offer") {
+            console.log("got offer");
             pc.setRemoteDescription(new RTCSessionDescription(msg.sdp))
                 .then(() => pc.createAnswer())
                 .then(answer => pc.setLocalDescription(answer))
                 .then(() => sendMessage(getNodeId(sender), yourId, JSON.stringify({ 'sdp': pc.localDescription })));
         }
-        else if (msg.sdp.type == "answer")
+        else if (msg.sdp.type == "answer") {
             pc.setRemoteDescription(new RTCSessionDescription(msg.sdp));
+            console.log("got answer");
+        }
     }
 };
 
