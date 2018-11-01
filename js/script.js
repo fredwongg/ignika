@@ -79,9 +79,6 @@ function getUserCount() {
                 firebase.database().ref('/lobby/' + r[i]).set();
                 pc = connection_list[i];
 
-                pc.createOffer()
-                    .then(offer => pc.setLocalDescription(offer))
-                    .then(() => sendMessage(yourId, JSON.stringify({ 'sdp': pc.localDescription })));
             }
         }
         console.log(r);
