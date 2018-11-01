@@ -34,7 +34,8 @@ function createConnection(friendId) {
             console.log('Disconnected');
         }
     }
-    pc.addStream(yourStream)
+    pc.addStream(yourStream);
+    firebase.database().ref('/lobby/' + lobbyId + '/connections/' + getNodeId(friendId)).on('child_added', readMessage);
     connection_list.push(pc);
     user_list.push(friendId);
 }
@@ -54,7 +55,6 @@ firebase.database().ref('/lobby/1/users/').on('child_added', function (snapshot)
     }
 
 });
-firebase.database().ref('/lobby/' + lobbyId + '/connections/').on('child_added', readMessage);
 
 function getNodeId(friendId) {
     if (yourId > friendId) {
