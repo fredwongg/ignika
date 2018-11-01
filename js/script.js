@@ -96,7 +96,7 @@ $('#start_chat').show();
 
 function sendMessage(nodeId, senderId, data) {
     firebase.database().ref('/lobby/' + lobbyId + '/connections/' + nodeId).set({ sender: senderId, message: data });
-    firebase.database().ref('/lobby/' + lobbyId + '/connections/' + nodeId).msg.remove();
+    firebase.database().ref('/lobby/' + lobbyId + '/connections/' + nodeId).remove();
 }
 
 function readMessage(data) {
