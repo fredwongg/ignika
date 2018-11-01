@@ -55,10 +55,7 @@ firebase.database().ref('/lobby/1/users/').on('child_added', function (snapshot)
     }
 
 });
-firebase.database().ref('/lobby/' + lobbyId + '/connections/').on('child_added', function (snapshot) {
-    console.log(snapshot);
-    readMessage(snapshot.data);
-});
+firebase.database().ref('/lobby/' + lobbyId + '/connections/').on('child_added', readMessage);
 
 function getNodeId(friendId) {
     if (yourId > friendId) {
