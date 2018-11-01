@@ -8,7 +8,7 @@ var config = {
     messagingSenderId: "112520978396"
   };
 firebase.initializeApp(config);
-//stable build 0.1
+//stable build 0.2
 var database = firebase.database();
 var yourVideo = document.getElementById("yourVideo");
 var friendsVideo = document.getElementById("friendsVideo");
