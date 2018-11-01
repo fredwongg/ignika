@@ -51,8 +51,7 @@ firebase.database().ref('/lobby/1/users/').on('child_added', function (snapshot)
     console.log(snapshot.key);
     if (snapshot.key != yourId) {
         createConnection(snapshot.key);
-        var msg = firebase.database().ref('/lobby/' + lobbyId + '/connections/' + getNodeId(snapshot.key)).push({ sender: yourId, message: data });
-
+        callFriend(snapshot.key);
     }
 
 });
@@ -140,10 +139,11 @@ function showMyFace() {
         .then(stream => yourStream = stream);
 }
 
-function callFriends() {
-    pc1.createOffer()
-        .then(offer => pc1.setLocalDescription(offer))
-        .then(() => sendMessage(yourId, JSON.stringify({ 'sdp': pc1.localDescription })));
+function callFriend(friendId) {
+    let pc = getConnection(friendId);
+    pc.createOffer()
+        .then(offer => pc.setLocalDescription(offer))
+        .then(() => sendMessage(getNodeId(friendId), yourId, JSON.stringify({ 'sdp': pc.localDescription })));
 }
 
 
