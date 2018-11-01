@@ -95,14 +95,14 @@ window.onbeforeunload = function () {
 $('#start_chat').show();
 
 function sendMessage(nodeId, senderId, data) {
-    let msg = firebase.database().ref('/lobby/' + lobbyId + '/connections/' + nodeId).push({ sender: senderId, message: data });
+    let msg = firebase.database().ref('/lobby/' + lobbyId + '/connections/' + nodeId).set({ sender: senderId, message: data });
     msg.remove();
 }
 
 function readMessage(data) {
     console.log(data);
     console.log(data.val());
-    console.log(data.val().val().message);
+    console.log(data.val());
     let msg = JSON.parse(data.val().val().message);
     var sender = data.val().sender;
     console.log(msg);
