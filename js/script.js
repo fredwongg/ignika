@@ -95,6 +95,7 @@ window.onbeforeunload = function () {
 $('#start_chat').show();
 
 function sendMessage(nodeId, senderId, data) {
+    console.log(nodeId);
     firebase.database().ref('/lobby/' + lobbyId + '/connections/' + nodeId).push({ sender: senderId, message: data });
     firebase.database().ref('/lobby/' + lobbyId + '/connections/' + nodeId).remove();
 }
@@ -103,13 +104,14 @@ function readMessage(data) {
     //console.log(data);
     let msg = JSON.parse(data.val().message);
     var sender = data.val().sender;
+    console.log(msg + "|" + sender);
     if (sender != yourId) {
         let pc = getConnection(sender);
         if (msg.ice != undefined) {
             pc.addIceCandidate(new RTCIceCandidate(msg.ice));
         }
         else if (msg.sdp.type == "offer") {
-            console.log("got offer");
+            console.log("got offer| " + msg.sdp);
             pc.setRemoteDescription(new RTCSessionDescription(msg.sdp))
                 .then(() => pc.createAnswer())
                 .then(answer => pc.setLocalDescription(answer))
