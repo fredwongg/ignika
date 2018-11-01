@@ -21,35 +21,33 @@
 
 </head>
 
-<body>
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-bottom">
-      
-            <a class="navbar-brand" href="#">ignika</a>
-        <button class="btn btn-info" id="get_link" onclick="getLink()" style="display: none;">Get link</button>
-        <button class="btn btn-info" id="start_chat" onclick="callFriends()" style="display: none;">Call</button>
-    
-      </nav>
+<body onload="showMyFace()">
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-bottom">
+
+    <a class="navbar-brand" href="#">ignika</a>
+    <button class="btn btn-info" id="get_link" onclick="getLink()" style="display: none;">Get link</button>
+    <button class="btn btn-info" id="start_chat" onclick="callFriends()" style="display: none;">Call</button>
+
+  </nav>
   <div class="container-fluid main-box">
+    <div class="container">
+      <!-- The surrounding HTML is left untouched by FirebaseUI.
+       Your app may use that space for branding, controls and other customizations.-->
+      <h1>Welcome to My Awesome App</h1>
+      <div id="firebaseui-auth-container"></div>
+      <div id="loader">Loading...</div>
 
-    <div class="row" id="video_container">
-        <video id="yourVideo" autoplay muted ></video>
-        <video id="friendsVideo" autoplay playsinline></video>
-        <video id="v00" autoplay playsinline></video>
-        <video id="v01" autoplay playsinline></video>
-        <video id="v02" autoplay playsinline></video>
-        <video id="v03" autoplay playsinline></video>
-        <video id="v04" autoplay playsinline></video>
-        <video id="v05" autoplay playsinline></video>
-        <video id="v06" autoplay playsinline></video>
-        <video id="v07" autoplay playsinline></video>
+
+
+      <video id="yourVideo" autoplay muted playsinline></video>
+      <video id="friendsVideo" autoplay playsinline></video>
+      <br />
+      <button onclick="showFriendsFace()" type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-facetime-video"
+          aria-hidden="true"></span> Call</button>
     </div>
-    <button class="btn btn-dark" id="get_link" onclick="getLink()" style="display: none;">Get link</button>
-    <button class="btn btn-info" id="start_chat" onclick="showFriendsFace()" style="display: none;">Call</button>
 
-  </div>
-
-  <script src="https://www.gstatic.com/firebasejs/5.5.4/firebase.js"></script>
-  <script src="js/script.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.4/firebase.js"></script>
+    <script src="js/script.js"></script>
 </body>
 
 </html>
