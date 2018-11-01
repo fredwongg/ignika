@@ -95,8 +95,8 @@ window.onbeforeunload = function () {
 $('#start_chat').show();
 
 function sendMessage(nodeId, senderId, data) {
-    let msg = firebase.database().ref('/lobby/' + lobbyId + '/connections/' + nodeId).set({ sender: senderId, message: data });
-    msg.remove();
+    firebase.database().ref('/lobby/' + lobbyId + '/connections/' + nodeId).set({ sender: senderId, message: data });
+    firebase.database().ref('/lobby/' + lobbyId + '/connections/' + nodeId).msg.remove();
 }
 
 function readMessage(data) {
