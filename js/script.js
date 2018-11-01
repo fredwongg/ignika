@@ -25,7 +25,6 @@ function createConnection() {
     pc.addStream(myStream);
     connection_list.push(pc);
 }
-createConnection();
 
 function sendMessage(senderId, data) {
     var msg = database.push({ sender: senderId, message: data });
@@ -63,3 +62,5 @@ function showFriendsFace() {
     .then(offer => pc.setLocalDescription(offer) )
     .then(() => sendMessage(yourId, JSON.stringify({'sdp': pc.localDescription})) );
 }
+
+createConnection();
