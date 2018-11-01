@@ -94,6 +94,7 @@ function readMessage(data) {
         let pc = getConnection(sender);
         if (msg.ice != undefined) {
             console.log("got candidate");
+            console.log(msg.ice);
             pc.addIceCandidate(new RTCIceCandidate(msg.ice));
         }
         else if (msg.sdp.type == "offer") {
