@@ -82,7 +82,7 @@ $('#start_chat').show();
 function sendMessage(nodeId, senderId, data) {
     console.log(nodeId);
     firebase.database().ref('/lobby/' + lobbyId + '/connections/' + nodeId).push({ sender: senderId, message: data });
-    firebase.database().ref('/lobby/' + lobbyId + '/connections/' + nodeId).remove();
+    //firebase.database().ref('/lobby/' + lobbyId + '/connections/' + nodeId).remove();
 }
 
 function readMessage(data) {
