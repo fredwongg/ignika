@@ -26,6 +26,7 @@ function createConnection(friendId) {
     let pc = new RTCPeerConnection(servers);
     let nodeId = getNodeId(friendId);
     //console.log(nodeId);
+    createFrame(friendId);
     createVideoFrame(friendId);
     createButton(user_list.length);
     pc.onicecandidate = (event => event.candidate?sendMessage(friendId, yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
@@ -122,9 +123,9 @@ function createVideoFrame(id) {
         id: id,
         autoplay: true
     });
-    video.appendTo($('#video_container'));
-    userVideo = document.getElementById(id);
-    userVideo.setAttribute('autoplay', true);
+    video.appendTo($('#d' + id));
+    //userVideo = document.getElementById(id);
+    //userVideo.setAttribute('autoplay', true);
     //return $("#" + id);
     //video.srcObject = src;
 }
@@ -135,7 +136,15 @@ function createButton(id) {
         class : "btn btn-info",
         text: "call"
     })
-    button.appendTo($('#video_container'));
+    button.appendTo($('#d' + id));
+}
+
+function createFrame(id) {
+    var box = $('div', {
+        id : 'd' + id,
+        class : 'col'
+    })
+    box.appendTo($('#video_container'));
 }
 
 showMyFace();
