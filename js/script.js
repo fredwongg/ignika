@@ -87,6 +87,16 @@ function showFriendsFace() {
     //console.log("catch");
 }
 
+function callFriend (id) {
+    let pc = connection_list[id];
+        //let nodeId = getNodeId(user_list[id]);
+        //console.log("Show friends face " + nodeId + "try");
+        workAround = user_list[id];
+        pc.createOffer()
+          .then(offer => pc.setLocalDescription(offer) )
+          .then(() => sendMessage(workAround, yourId, JSON.stringify({'sdp': pc.localDescription})) );
+}
+
 
 function getNodeId(friendId) {
     //return 'xxx';
