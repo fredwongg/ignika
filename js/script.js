@@ -26,7 +26,7 @@ function createConnection(friendId) {
     let pc = new RTCPeerConnection(servers);
     let nodeId = getNodeId(friendId);
     //console.log(nodeId);
-    createFrame(friendId);
+    //createFrame(friendId);
     createVideoFrame(friendId);
     createButton(user_list.length);
     pc.onicecandidate = (event => event.candidate?sendMessage(friendId, yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
