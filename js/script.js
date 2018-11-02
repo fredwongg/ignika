@@ -26,7 +26,7 @@ function createConnection(friendId) {
     let pc = new RTCPeerConnection(servers);
     let nodeId = getNodeId(friendId);
     console.log(nodeId);
-    pc.onicecandidate = (event => event.candidate?sendMessage(nodeId, yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
+    pc.onicecandidate = (event => event.candidate?sendMessage(friendId, yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
     pc.onaddstream = (event => friendsVideo.srcObject = event.stream);
     navigator.mediaDevices.getUserMedia({audio:true, video:true})
     .then(stream => pc.addStream(stream));
@@ -57,7 +57,7 @@ function readMessage(data) {
             pc.setRemoteDescription(new RTCSessionDescription(msg.sdp))
               .then(() => pc.createAnswer())
               .then(answer => pc.setLocalDescription(answer))
-              .then(() => sendMessage(nodeId, yourId, JSON.stringify({'sdp': pc.localDescription})));
+              .then(() => sendMessage(sender, yourId, JSON.stringify({'sdp': pc.localDescription})));
         else if (msg.sdp.type == "answer")
             pc.setRemoteDescription(new RTCSessionDescription(msg.sdp));
     }
@@ -78,7 +78,7 @@ function showFriendsFace() {
         console.log("Show friends face " + nodeId);
         pc.createOffer()
           .then(offer => pc.setLocalDescription(offer) )
-          .then(() => sendMessage(getNodeId(user_list[i]), yourId, JSON.stringify({'sdp': pc.localDescription})) );
+          .then(() => sendMessage(user_list[i], yourId, JSON.stringify({'sdp': pc.localDescription})) );
     }
    
 }
