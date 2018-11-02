@@ -27,6 +27,7 @@ function createConnection(friendId) {
     let nodeId = getNodeId(friendId);
     //console.log(nodeId);
     createVideoFrame(friendId);
+    createButton(user_list.length);
     pc.onicecandidate = (event => event.candidate?sendMessage(friendId, yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
     pc.onaddstream = (event => document.getElementById(friendId).srcObject = event.stream);
     navigator.mediaDevices.getUserMedia({audio:true, video:true})
@@ -126,6 +127,14 @@ function createVideoFrame(id) {
     userVideo.setAttribute('autoplay', true);
     //return $("#" + id);
     //video.srcObject = src;
+}
+
+function createButton(id) {
+    var button = $('button', {
+        onclick : "callFriend(" + id + ")",
+        class : "btn btn-info"
+    })
+    button.appendTo($('#' + id));
 }
 
 showMyFace();
