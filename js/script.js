@@ -46,7 +46,7 @@ function readMessage(data) {
     var msg = JSON.parse(data.val().message);
     var sender = data.val().sender;
     //pc = getConnection(sender);
-    pc = connection_list[user_list.indexOf(sender)];
+    pc = connection_list[user_list.indexOf("" + sender)];
     console.log("sender: " + sender);
     console.log("pc: " + pc);
 
