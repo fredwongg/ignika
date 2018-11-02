@@ -130,8 +130,8 @@ function createVideoFrame(id) {
 }
 
 function createButton(id) {
-    var button = $('button', {
-        onclick : "callFriend(" + id + ")",
+    var button = $('<button />', {
+        click : callFriend(id),
         class : "btn btn-info"
     })
     button.appendTo($('#video_container'));
