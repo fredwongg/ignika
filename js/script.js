@@ -75,7 +75,7 @@ function showFriendsFace() {
     var workAround;
     for (i = 0; i < user_list.length; i++) {
         console.log(user_list[i]);
-        let pc = connection_list[0];
+        let pc = connection_list[i];
         let nodeId = getNodeId(user_list[i]);
         //console.log("Show friends face " + nodeId + "try");
         workAround = user_list[i];
@@ -84,8 +84,8 @@ function showFriendsFace() {
           .then(() => sendMessage(workAround, yourId, JSON.stringify({'sdp': pc.localDescription})) );
     }
     //console.log("catch");
-   
 }
+
 
 function getNodeId(friendId) {
     //return 'xxx';
