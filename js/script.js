@@ -34,7 +34,7 @@ function createConnection(friendId) {
 }
 
 function sendMessage(friendId, senderId, data) {
-    var msg = database.ref('/lobby/' + lobbyId + '/connections/' + getNodeId(friendId) + '/').push({ sender: senderId, message: data });
+    var msg = database.ref('/lobby/' + lobbyId + '/connections/' + getNodeId(friendId)).push({ sender: senderId, message: data });
     msg.remove();
 }
 
@@ -75,7 +75,7 @@ function showFriendsFace() {
 }
 
 function getNodeId(friendId) {
-
+    return 'xxx';
     if (yourId > friendId) {
         return "" + friendId + yourId;
     } else {
