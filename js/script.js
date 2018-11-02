@@ -87,10 +87,10 @@ function getNodeId(friendId) {
     //return 'xxx';
     if (yourId > friendId) {
         //console.log("" + friendId + yourId);
-        return "" + friendId + "x" + yourId;
+        return yourId;
     } else {
         //console.log("" + yourId + friendId);
-        return "" + yourId + "x" + friendId;
+        return friendId;
     }
 }
 
