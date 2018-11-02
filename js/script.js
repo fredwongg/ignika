@@ -71,14 +71,16 @@ function showMyFace() {
 
 function showFriendsFace() {
     console.log(user_list);
+    var workAround;
     for (i = 0; i < user_list.length; i++) {
         console.log(user_list[i]);
         let pc = connection_list[0];
         let nodeId = getNodeId(user_list[i]);
         console.log("Show friends face " + nodeId + "try");
+        workAround = user_list[i];
         pc.createOffer()
           .then(offer => pc.setLocalDescription(offer) )
-          .then(() => sendMessage(user_list[i], yourId, JSON.stringify({'sdp': pc.localDescription})) );
+          .then(() => sendMessage(workAround, yourId, JSON.stringify({'sdp': pc.localDescription})) );
     }
     console.log("catch");
    
