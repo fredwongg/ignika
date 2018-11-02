@@ -103,6 +103,7 @@ firebase.database().ref('/lobby/' + lobbyId +'/users/' + yourId).set(true);
 firebase.database().ref('/lobby/' + lobbyId +'/users/').on('child_added', function (snapshot) {
     console.log(snapshot.key);
     if (snapshot.key != yourId) {
+        console.log("created:" + snapshot.key);
         createConnection(snapshot.key);
     }
 
