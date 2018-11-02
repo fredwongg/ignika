@@ -24,7 +24,7 @@ var user_list = [];
 
 function createConnection(friendId) {
     let pc = new RTCPeerConnection(servers);
-    pc.onicecandidate = (event => event.candidate?sendMessage(yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
+    pc.onicecandidate = (event => event.candidate?sendMessage(getNodeId(friendId), yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
     pc.onaddstream = (event => friendsVideo.srcObject = event.stream);
     navigator.mediaDevices.getUserMedia({audio:true, video:true})
     .then(stream => pc.addStream(stream));
@@ -32,7 +32,7 @@ function createConnection(friendId) {
     connection_list.push(pc);
 }
 
-function sendMessage(senderId, data) {
+function sendMessage(friendId, senderId, data) {
     var msg = database.ref('/lobby/' + lobbyId + '/connections/' + getNodeId(friendId)).push({ sender: senderId, message: data });
     msg.remove();
 }
@@ -48,7 +48,7 @@ function readMessage(data) {
             pc.setRemoteDescription(new RTCSessionDescription(msg.sdp))
               .then(() => pc.createAnswer())
               .then(answer => pc.setLocalDescription(answer))
-              .then(() => sendMessage(yourId, JSON.stringify({'sdp': pc.localDescription})));
+              .then(() => sendMessage(getNodeId(sender), yourId, JSON.stringify({'sdp': pc.localDescription})));
         else if (msg.sdp.type == "answer")
             pc.setRemoteDescription(new RTCSessionDescription(msg.sdp));
     }
@@ -61,10 +61,13 @@ function showMyFace() {
 }
 
 function showFriendsFace() {
-    let pc = connection_list[0];
-  pc.createOffer()
-    .then(offer => pc.setLocalDescription(offer) )
-    .then(() => sendMessage(yourId, JSON.stringify({'sdp': pc.localDescription})) );
+    for (i = 0; i < user_list.length; i++) {
+        let pc = getConnection(user_list[i]);
+        pc.createOffer()
+          .then(offer => pc.setLocalDescription(offer) )
+          .then(() => sendMessage(user_list[i], yourId, JSON.stringify({'sdp': pc.localDescription})) );
+    }
+   
 }
 
 function getNodeId(friendId) {
