@@ -47,7 +47,8 @@ function readMessage(data) {
     var sender = data.val().sender;
     //pc = getConnection(sender);
     pc = connection_list[user_list.indexOf(sender)];
-    //consconsole.log("sender: " + sender);
+    console.log("sender: " + sender);
+    console.log("pc: " + pc);
 
     if (sender != yourId) {
         let nodeId = getNodeId(sender);
