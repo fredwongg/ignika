@@ -75,7 +75,7 @@ function showFriendsFace() {
 }
 
 function getNodeId(friendId) {
-    return 'xxx';
+    //return 'xxx';
     if (yourId > friendId) {
         return "" + friendId + yourId;
     } else {
