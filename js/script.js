@@ -42,7 +42,11 @@ function readMessage(data) {
     var msg = JSON.parse(data.val().message);
     var sender = data.val().sender;
     //pc = getConnection(sender);
-    pc = connection_list[0];
+    let x = user_list.indexOf(sender);
+    console.log(sender);
+    console.log(user_list);
+    console.log(x);
+    pc = connection_list[x];
     if (sender != yourId) {
         if (msg.ice != undefined)
             pc.addIceCandidate(new RTCIceCandidate(msg.ice));
