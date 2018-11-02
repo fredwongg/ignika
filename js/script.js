@@ -29,6 +29,7 @@ function createConnection(friendId) {
     navigator.mediaDevices.getUserMedia({audio:true, video:true})
     .then(stream => pc.addStream(stream));
     database.ref('/lobby/' + lobbyId + '/connections/' + getNodeId(friendId)).on('child_added', readMessage);
+    user_list.push(friendId);
     connection_list.push(pc);
 }
 
@@ -89,7 +90,7 @@ firebase.database().ref('/lobby/' + lobbyId +'/users/' + yourId).set(true);
 firebase.database().ref('/lobby/' + lobbyId +'/users/').on('child_added', function (snapshot) {
     console.log(snapshot.key);
     if (snapshot.key != yourId) {
-        createConnection();
+        createConnection(snapshot.key);
     }
 
 });
