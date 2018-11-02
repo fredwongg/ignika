@@ -75,11 +75,12 @@ function showFriendsFace() {
         console.log(user_list[i]);
         let pc = connection_list[0];
         let nodeId = getNodeId(user_list[i]);
-        console.log("Show friends face " + nodeId);
+        console.log("Show friends face " + nodeId + "try");
         pc.createOffer()
           .then(offer => pc.setLocalDescription(offer) )
           .then(() => sendMessage(user_list[i], yourId, JSON.stringify({'sdp': pc.localDescription})) );
     }
+    console.log("catch");
    
 }
 
