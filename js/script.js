@@ -46,9 +46,10 @@ function readMessage(data) {
     var sender = data.val().sender;
     //pc = getConnection(sender);
     pc = connection_list[0];
+    console.log("sender: " + sender);
+
     if (sender != yourId) {
         let nodeId = getNodeId(sender);
-        console.log("sender: " + sender);
         console.log("readMessage" + nodeId);
         if (msg.ice != undefined)
             pc.addIceCandidate(new RTCIceCandidate(msg.ice));
