@@ -68,7 +68,7 @@ function showFriendsFace() {
         let pc = getConnection(user_list[i]);
         pc.createOffer()
           .then(offer => pc.setLocalDescription(offer) )
-          .then(() => sendMessage(user_list[i], yourId, JSON.stringify({'sdp': pc.localDescription})) );
+          .then(() => sendMessage(getNodeId(user_list[i]), yourId, JSON.stringify({'sdp': pc.localDescription})) );
     }
    
 }
