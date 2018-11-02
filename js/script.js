@@ -65,7 +65,7 @@ function showFriendsFace() {
     console.log(user_list);
     for (i = 0; i < user_list.length; i++) {
         console.log(user_list[i]);
-        let pc = getConnection(user_list[i]);
+        let pc = connection_list[0];
         pc.createOffer()
           .then(offer => pc.setLocalDescription(offer) )
           .then(() => sendMessage(getNodeId(user_list[i]), yourId, JSON.stringify({'sdp': pc.localDescription})) );
