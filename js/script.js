@@ -36,7 +36,7 @@ function createConnection(friendId) {
 }
 
 function sendMessage(friendId, senderId, data) {
-    console.log(getNodeId(friendId));
+    console.log(getNodeId(friendId) + "|" + data);
     var msg = database.ref('/lobby/' + lobbyId + '/connections/' + getNodeId(friendId)).push({ sender: senderId, message: data });
     msg.remove();
 }
