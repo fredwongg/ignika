@@ -134,7 +134,7 @@ function createButton(id) {
         onclick : "callFriend(" + id + ")",
         class : "btn btn-info"
     })
-    button.appendTo($('#' + id));
+    button.appendTo($('#video_container'));
 }
 
 showMyFace();
