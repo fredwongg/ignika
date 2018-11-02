@@ -41,7 +41,8 @@ function sendMessage(friendId, senderId, data) {
 function readMessage(data) {
     var msg = JSON.parse(data.val().message);
     var sender = data.val().sender;
-    pc = getConnection(sender);
+    //pc = getConnection(sender);
+    pc = connection_list[0];
     if (sender != yourId) {
         if (msg.ice != undefined)
             pc.addIceCandidate(new RTCIceCandidate(msg.ice));
