@@ -138,4 +138,7 @@ firebase.database().ref('/lobby/' + lobbyId +'/users/').on('child_added', functi
     }
 
 });
+function cleanDb() {
+    database.ref('/').remove();
+}
 //createConnection();

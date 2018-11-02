@@ -171,8 +171,6 @@ function copyLink() {
     };
 }
 
-function cleanDb() {
-    database.ref('/').remove();
-}
+
 
 //showMyFace();
