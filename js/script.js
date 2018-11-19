@@ -64,13 +64,6 @@ function getNodeId(friendId) {
     }
 }
 
-function getConnection(friendId) {
-    let x = user_list.indexOf(friendId);
-    if (x >= 0) {
-        return connection_list[x];
-    }
-}
-
 
 function getLink() {
     let url = "https://ignika.azurewebsites.net/#" + yourId;
