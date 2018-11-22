@@ -177,8 +177,7 @@ function pageLoad() {
 }
 
 function getLink() {
-    //let url = "https://fredwongg.github.io/ignika/#" + yourId;
-    let url = "http://localhost:4200/#/" + yourId;
+    let url = "https://fredwongg.github.io/ignika/#" + yourId;
     // show and attempt to copy to clipboard
     var copyText = document.getElementById("myInput");
     copyText.value = url;
@@ -197,7 +196,7 @@ function getLink() {
 
 
 function login() {
-    window.location.href = "https://badgebookfront.azurewebsites.net/#/login/666";
+    window.location.href = "http://localhost:4200/#/login/666";
 }
 
 function getToken() {
