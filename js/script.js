@@ -143,6 +143,12 @@ function cleanDb() {
     database.ref('lobby/' + lobbyId).remove();
 }
 
+function getId() {
+    let url = window.location.href;
+    return url.split('#')[1];
+}
+
+
 function pageLoad() {
     let urlId = getId();
     if (urlId) {
@@ -150,7 +156,7 @@ function pageLoad() {
         lobbyId = urlId;
     } else {
         //database = database.ref('lobby/'+ yourId);
-        lobbyId = urlId;
+        lobbyId = yourId;
         $("#get_link").show();
     }
     showMyFace();
@@ -183,10 +189,6 @@ function getLink() {
 
 }
 
-function getId() {
-    let url = window.location.href;
-    return url.split('#')[1];
-}
 
 pageLoad();
 
