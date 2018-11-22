@@ -137,16 +137,7 @@ function createButton(id) {
     button.appendTo($('#video_container'));
 }
 
-showMyFace();
-firebase.database().ref('/lobby/' + lobbyId +'/users/' + yourId).set(true);
-firebase.database().ref('/lobby/' + lobbyId +'/users/').on('child_added', function (snapshot) {
-    //console.log(snapshot.key);
-    if (snapshot.key != yourId) {
-        //console.log("created:" + snapshot.key);
-        createConnection(snapshot.key);
-    }
 
-});
 
 function cleanDb() {
     database.ref('/').remove();
@@ -161,11 +152,19 @@ function pageLoad() {
         database = database.ref('lobby/'+ yourId);
         $("#get_link").show();
     }
-    database.on('child_added', readMessage);
+    showMyFace();
+    firebase.database().ref('/lobby/' + lobbyId +'/users/' + yourId).set(true);
+    firebase.database().ref('/lobby/' + lobbyId +'/users/').on('child_added', function (snapshot) {
+        //console.log(snapshot.key);
+        if (snapshot.key != yourId) {
+            //console.log("created:" + snapshot.key);
+            createConnection(snapshot.key);
+        }
+    });
 }
 
 function getLink() {
-    let url = "https://ignika.azurewebsites.net/#" + yourId;
+    let url = "https://fredwongg.github.io/ignika/#" + yourId;
     // show and attempt to copy to clipboard
     var copyText = document.getElementById("myInput");
     copyText.value = url;
@@ -183,9 +182,14 @@ function getLink() {
 
 }
 
+function getId() {
+    let url = window.location.href;
+    return url.split('#')[1];
+}
+
 pageLoad();
 
-onbeforeunload=function() {
+window.onbeforeunload=function() {
     cleanDb();
 }
 
