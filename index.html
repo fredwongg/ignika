@@ -23,15 +23,18 @@
 
 <body>
   <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-bottom">
-    <button class="btn btn-info btn-block" id="get_link" onclick="getLink()" style="display: none;">Get link</button>
-    <button class="btn btn-success btn-block" id="start_chat" onclick="callRemote()" style="display: none;">Call</button>
+
+    <button class="btn btn-info" id="get_link" onclick="getLink()" style="display: none;">Get link</button>
+    <button class="btn btn-info" id="get_link" onclick="cleanDb()" style="display: none;">Clean</button>
+
   </nav>
   <div class="container-fluid main-box">
-      <video id="hostVideo" autoplay muted playsinline></video>
-      <video id="remoteVideo" autoplay playsinline></video>
+    <div class="row" id="video_container">
+      <video id="yourVideo" autoplay muted playsinline></video>
+
     </div>
-<!-- The text field -->
-<input type="text" value="Hello World" id="myInput" style="position: absolute; top: -1500px;">
+    <br />
+
     <script src="https://www.gstatic.com/firebasejs/5.5.4/firebase.js"></script>
     <script src="js/script.js"></script>
 </body>
