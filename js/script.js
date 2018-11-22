@@ -140,12 +140,11 @@ function createButton(id) {
 
 
 function cleanDb() {
-    database.ref('/').remove();
+    database.ref('lobby/' + lobbyId).remove();
 }
 
 function pageLoad() {
     let urlId = getId();
-    showMyFace();
     if (urlId) {
         database = database.ref('lobby/'+ urlId);
         lobbyId = urlId;
