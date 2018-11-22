@@ -148,8 +148,10 @@ function pageLoad() {
     showMyFace();
     if (urlId) {
         database = database.ref('lobby/'+ urlId);
+        lobbyId = urlId;
     } else {
         database = database.ref('lobby/'+ yourId);
+        lobbyId = urlId;
         $("#get_link").show();
     }
     showMyFace();
