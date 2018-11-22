@@ -146,10 +146,10 @@ function cleanDb() {
 function pageLoad() {
     let urlId = getId();
     if (urlId) {
-        database = database.ref('lobby/'+ urlId);
+        //database = database.ref('lobby/'+ urlId);
         lobbyId = urlId;
     } else {
-        database = database.ref('lobby/'+ yourId);
+        //database = database.ref('lobby/'+ yourId);
         lobbyId = urlId;
         $("#get_link").show();
     }
