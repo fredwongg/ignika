@@ -177,7 +177,8 @@ function pageLoad() {
 }
 
 function getLink() {
-    let url = "https://fredwongg.github.io/ignika/#" + yourId;
+    //let url = "https://fredwongg.github.io/ignika/#" + yourId;
+    let url = "http://localhost:4200/#/" + yourId;
     // show and attempt to copy to clipboard
     var copyText = document.getElementById("myInput");
     copyText.value = url;
