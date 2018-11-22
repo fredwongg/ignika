@@ -151,7 +151,7 @@ function getId() {
 
 function pageLoad() {
     let urlId = getId();
-    let logToken = getId();
+    let logToken = getToken();
     if (urlId) {
         //database = database.ref('lobby/'+ urlId);
         lobbyId = urlId;
