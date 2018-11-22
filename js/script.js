@@ -6,19 +6,19 @@ var config = {
     projectId: "ignika-79b0b",
     storageBucket: "ignika-79b0b.appspot.com",
     messagingSenderId: "112520978396"
-  };
+};
 firebase.initializeApp(config);
 //stable build 0.3
 var database = firebase.database();
 var yourVideo = document.getElementById("yourVideo");
 //var friendsVideo = document.getElementById("friendsVideo");
-var yourId = Math.floor(Math.random()*1000000000);
-const servers = {'iceServers': [{'urls': 'stun:stun.services.mozilla.com'}, {'urls': 'stun:stun.l.google.com:19302'}]};
+var yourId = Math.floor(Math.random() * 1000000000);
+const servers = { 'iceServers': [{ 'urls': 'stun:stun.services.mozilla.com' }, { 'urls': 'stun:stun.l.google.com:19302' }] };
 var myStream;
 var lobbyId = 0;
 var connection_list = [];
 var user_list = [];
-
+var logToken = null;
 
 
 function createConnection(friendId) {
@@ -27,10 +27,10 @@ function createConnection(friendId) {
     //console.log(nodeId);
     createVideoFrame(friendId);
     createButton(user_list.length);
-    pc.onicecandidate = (event => event.candidate?sendMessage(friendId, yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
+    pc.onicecandidate = (event => event.candidate ? sendMessage(friendId, yourId, JSON.stringify({ 'ice': event.candidate })) : console.log("Sent All Ice"));
     pc.onaddstream = (event => document.getElementById(friendId).srcObject = event.stream);
-    navigator.mediaDevices.getUserMedia({audio:true, video:true})
-    .then(stream => pc.addStream(stream));
+    navigator.mediaDevices.getUserMedia({ audio: true, video: true })
+        .then(stream => pc.addStream(stream));
     database.ref('/lobby/' + lobbyId + '/connections/' + nodeId).on('child_added', readMessage);
     user_list.push(friendId);
     connection_list.push(pc);
@@ -57,9 +57,9 @@ function readMessage(data) {
             pc.addIceCandidate(new RTCIceCandidate(msg.ice));
         else if (msg.sdp.type == "offer")
             pc.setRemoteDescription(new RTCSessionDescription(msg.sdp))
-              .then(() => pc.createAnswer())
-              .then(answer => pc.setLocalDescription(answer))
-              .then(() => sendMessage(sender, yourId, JSON.stringify({'sdp': pc.localDescription})));
+                .then(() => pc.createAnswer())
+                .then(answer => pc.setLocalDescription(answer))
+                .then(() => sendMessage(sender, yourId, JSON.stringify({ 'sdp': pc.localDescription })));
         else if (msg.sdp.type == "answer")
             pc.setRemoteDescription(new RTCSessionDescription(msg.sdp));
     }
@@ -67,8 +67,8 @@ function readMessage(data) {
 
 
 function showMyFace() {
-  navigator.mediaDevices.getUserMedia({audio:true, video:true})
-    .then(stream => yourVideo.srcObject = stream);
+    navigator.mediaDevices.getUserMedia({ audio: true, video: true })
+        .then(stream => yourVideo.srcObject = stream);
 }
 
 function showFriendsFace() {
@@ -81,20 +81,20 @@ function showFriendsFace() {
         //console.log("Show friends face " + nodeId + "try");
         workAround = user_list[i];
         pc.createOffer()
-          .then(offer => pc.setLocalDescription(offer) )
-          .then(() => sendMessage(workAround, yourId, JSON.stringify({'sdp': pc.localDescription})) );
+            .then(offer => pc.setLocalDescription(offer))
+            .then(() => sendMessage(workAround, yourId, JSON.stringify({ 'sdp': pc.localDescription })));
     }
     //console.log("catch");
 }
 
-function callFriend (id) {
+function callFriend(id) {
     let pc = connection_list[id];
-        //let nodeId = getNodeId(user_list[id]);
-        //console.log("Show friends face " + nodeId + "try");
-        workAround = user_list[id];
-        pc.createOffer()
-          .then(offer => pc.setLocalDescription(offer) )
-          .then(() => sendMessage(workAround, yourId, JSON.stringify({'sdp': pc.localDescription})) );
+    //let nodeId = getNodeId(user_list[id]);
+    //console.log("Show friends face " + nodeId + "try");
+    workAround = user_list[id];
+    pc.createOffer()
+        .then(offer => pc.setLocalDescription(offer))
+        .then(() => sendMessage(workAround, yourId, JSON.stringify({ 'sdp': pc.localDescription })));
 }
 
 
@@ -130,8 +130,8 @@ function createVideoFrame(id) {
 
 function createButton(id) {
     var button = $('<button />', {
-        onclick : "callFriend("+id + ")",
-        class : "btn btn-info",
+        onclick: "callFriend(" + id + ")",
+        class: "btn btn-info",
         text: "call"
     })
     button.appendTo($('#video_container'));
@@ -151,17 +151,23 @@ function getId() {
 
 function pageLoad() {
     let urlId = getId();
+    let logToken = getId();
     if (urlId) {
         //database = database.ref('lobby/'+ urlId);
         lobbyId = urlId;
     } else {
-        //database = database.ref('lobby/'+ yourId);
-        lobbyId = yourId;
-        $("#get_link").show();
+        if (!logToken) {
+            $("#video_container").hide();
+            $("#login_link").show();
+        } else {
+            //database = database.ref('lobby/'+ yourId);
+            lobbyId = yourId;
+            $("#get_link").show();
+        }
     }
     showMyFace();
-    firebase.database().ref('/lobby/' + lobbyId +'/users/' + yourId).set(true);
-    firebase.database().ref('/lobby/' + lobbyId +'/users/').on('child_added', function (snapshot) {
+    firebase.database().ref('/lobby/' + lobbyId + '/users/' + yourId).set(true);
+    firebase.database().ref('/lobby/' + lobbyId + '/users/').on('child_added', function (snapshot) {
         //console.log(snapshot.key);
         if (snapshot.key != yourId) {
             //console.log("created:" + snapshot.key);
@@ -177,23 +183,33 @@ function getLink() {
     copyText.value = url;
     /* Select the text field */
     copyText.select();
-  
+
     /* Copy the text inside the text field */
     document.execCommand("copy");
-  
+
     lobbyId = yourId;
 
     /* Alert the copied text */
     alert("Copied the text: " + copyText.value);
     console.log(url);
-
 }
 
 
+function login() {
+    window.location.href = "https://badgebookfront.azurewebsites.net/#/login/666";
+}
+
+function getToken() {
+    let url = window.location.href;
+    return url.split('?t=')[1];
+}
+
 pageLoad();
 
-window.onbeforeunload=function() {
-    cleanDb();
+window.onbeforeunload = function () {
+    if (getId() == lobbyId) {
+        cleanDb();
+    }
 }
 
 //createConnection();
