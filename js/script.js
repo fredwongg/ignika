@@ -196,7 +196,7 @@ function getLink() {
 
 
 function login() {
-    window.location.href = "http://localhost:4200/#/login/666";
+    window.location.href = "https://badgebookfront.azurewebsites.net/#/login/666";
 }
 
 function getToken() {
