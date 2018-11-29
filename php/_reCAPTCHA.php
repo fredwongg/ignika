@@ -1,4 +1,5 @@
 <?php
+/** 
 // Checks if form has been submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     function post_captcha($user_response) {
@@ -34,5 +35,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // Paste mail function or whatever else you want to happen here!
         echo '<br><p>CAPTCHA was completed successfully!</p><br>';
-    }
+    }*/
+    echo("Hello World! by Fred...")
 ?>
