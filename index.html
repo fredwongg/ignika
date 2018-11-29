@@ -18,16 +18,21 @@
   <!-- Latest compiled JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
   <link rel="stylesheet" type="text/css" href="css/style.css">
+  <script src='https://www.google.com/recaptcha/api.js'></script>
 
 </head>
 
 <body>
+  <form action="_reCAPTCHA.php" method="POST">
+    <div class="g-recaptcha" data-sitekey="6Le6xn0UAAAAAONib5WYoEQXqiMPbGDLG8XaselM"></div>
+    <input type="submit" id="submit_reCAPTCHA" value="Submit">
+  </form>
   <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-bottom">
 
     <button class="btn btn-info" id="get_link" onclick="getLink()" style="display: none;">Get link</button>
     <button class="btn btn-info" id="xxx" onclick="cleanDb()" style="display: none;">Clean</button>
     <button class="btn btn-info" id="login_link" onclick="login()" style="display: none;">Login</button>
-
+    
   </nav>
   <div class="container-fluid main-box">
     <div class="row" id="video_container">
