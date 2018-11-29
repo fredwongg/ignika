@@ -197,7 +197,7 @@ function getLink() {
 
 
 function login() {
-    window.location.href = "https://badgebookfront.azurewebsites.net/#/login/666";
+    window.location.href = "https://badgebookfront.azurewebsites.net/#/login/2faea646-8385-4d82-9c10-ffcc6d6ff0e9";
 }
 
 function submitreCAPTCHAForm() {
