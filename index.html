@@ -23,7 +23,7 @@
 </head>
 
 <body>
-  <form action="php/_reCAPTCHA.php" id="reCAPTCHA_form" method="POST">
+  <form onsubmit="check_reCAPTCHA()" id="reCAPTCHA_form" style="display: none;">
     <div class="g-recaptcha" data-sitekey="6Le6xn0UAAAAAONib5WYoEQXqiMPbGDLG8XaselM"></div>
     <input type="submit" value="Submit">
   </form>
