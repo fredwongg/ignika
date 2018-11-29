@@ -155,16 +155,15 @@ function pageLoad() {
     if (urlId) {
         //database = database.ref('lobby/'+ urlId);
         lobbyId = urlId;
+        $("#reCAPTCHA_form").show();
     } else {
         if (!logToken) {
-            $("#reCAPTCHA_form").hide();
             $("#video_container").hide();
             $("#login_link").show();
         } else {
             //database = database.ref('lobby/'+ yourId);
             lobbyId = yourId;
             $("#get_link").show();
-            $("#reCAPTCHA_form").hide();
         }
     }
     showMyFace();
@@ -199,6 +198,10 @@ function getLink() {
 
 function login() {
     window.location.href = "https://badgebookfront.azurewebsites.net/#/login/666";
+}
+
+function check_reCAPTCHA() {
+    console.log("calling check_reCAPTCHA()");
 }
 
 function getToken() {
