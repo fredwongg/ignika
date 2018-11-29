@@ -145,17 +145,20 @@ function cleanDb() {
 
 function getId() {
     let url = window.location.href;
+    console.log(url.split('#')[1]);
     return url.split('#')[1];
 }
 
 
 function pageLoad() {
+    getId();
+    getToken();
     let urlId = getId();
     let logToken = getToken();
     if (urlId) {
         //database = database.ref('lobby/'+ urlId);
         lobbyId = urlId;
-        $("#reCAPTCHA_form").show();
+        //$("#reCAPTCHA_form").show();
     } else {
         if (!logToken) {
             $("#video_container").hide();
