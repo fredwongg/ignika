@@ -200,8 +200,19 @@ function login() {
     window.location.href = "https://badgebookfront.azurewebsites.net/#/login/666";
 }
 
-function check_reCAPTCHA() {
-    console.log("calling check_reCAPTCHA()");
+function submitreCAPTCHAForm() {
+    var response = grecaptcha.getResponse();
+    console.log(response.length);
+    if(response.length == 0) {
+        document.getElementById('g-recaptcha-error').innerHTML = '<span style="color:red;">This field is required.</span>';
+        return false;
+    }
+    return true;
+}
+
+function verifyCaptcha() {
+    console.log("verified");
+    document.getElementById('g-recaptcha-error').innerHTML = '';
 }
 
 function getToken() {
