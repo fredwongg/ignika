@@ -157,6 +157,7 @@ function pageLoad() {
         lobbyId = urlId;
     } else {
         if (!logToken) {
+            $("#reCAPTCHA_form").hide();
             $("#video_container").hide();
             $("#login_link").show();
         } else {
