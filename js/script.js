@@ -164,6 +164,7 @@ function pageLoad() {
             //database = database.ref('lobby/'+ yourId);
             lobbyId = yourId;
             $("#get_link").show();
+            $("#reCAPTCHA_form").hide();
         }
     }
     showMyFace();
