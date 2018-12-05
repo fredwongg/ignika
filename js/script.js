@@ -161,12 +161,12 @@ function pageLoad() {
         $("#reCAPTCHA_form").show();
     } else {
         if (!logToken) {
-            $("#video_container").hide();
             $("#login_link").show();
         } else {
             //database = database.ref('lobby/'+ yourId);
             lobbyId = yourId;
             $("#get_link").show();
+            $("#video_container").show();
         }
     }
     showMyFace();
