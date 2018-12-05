@@ -135,7 +135,7 @@ function createButton(id) {
         text: "call"
     })
     button.appendTo($('#video_container'));
-    button.setAttribute('display', false);
+    button.setAttribute('style', 'display: none');
 }
 
 
