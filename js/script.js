@@ -167,9 +167,10 @@ function pageLoad() {
             lobbyId = yourId;
             $("#get_link").show();
             $("#video_container").show();
+            showMyFace();
         }
     }
-    showMyFace();
+    
     firebase.database().ref('/lobby/' + lobbyId + '/users/' + yourId).set(true);
     firebase.database().ref('/lobby/' + lobbyId + '/users/').on('child_added', function (snapshot) {
         //console.log(snapshot.key);
@@ -217,6 +218,8 @@ function verifyCaptcha() {
     console.log("verified");
     document.getElementById('g-recaptcha-error').innerHTML = '';
     $("#video_container").show();
+    $("#reCAPTCHA_form").hide();
+    showMyFace();
 }
 
 function getToken() {
