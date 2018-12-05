@@ -23,8 +23,8 @@
 </head>
 
 <body>
-  <form method="POST" onsubmit="submitreCAPTCHAForm()" data-callback="verifyCaptcha" id="reCAPTCHA_form" style="display: none;">
-    <div class="g-recaptcha" data-sitekey="6Le6xn0UAAAAAONib5WYoEQXqiMPbGDLG8XaselM"></div>
+  <form method="POST" onsubmit="submitreCAPTCHAForm()" id="reCAPTCHA_form" style="display: none;">
+    <div class="g-recaptcha" data-sitekey="6Le6xn0UAAAAAONib5WYoEQXqiMPbGDLG8XaselM"  data-callback="verifyCaptcha"></div>
     <div id="g-recaptcha-error"></div>
     <input type="submit" value="Verify">
   </form>
