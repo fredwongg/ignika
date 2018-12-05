@@ -135,7 +135,6 @@ function createButton(id) {
         text: "call"
     })
     button.appendTo($('#video_container'));
-    button.setAttribute("style", "display: none");
 }
 
 
@@ -217,7 +216,7 @@ function submitreCAPTCHAForm() {
 function verifyCaptcha() {
     console.log("verified");
     document.getElementById('g-recaptcha-error').innerHTML = '';
-    
+    $("#video_container").show();
 }
 
 function getToken() {
