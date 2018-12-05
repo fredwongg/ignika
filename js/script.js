@@ -26,7 +26,7 @@ function createConnection(friendId) {
     let nodeId = getNodeId(friendId);
     //console.log(nodeId);
     createVideoFrame(friendId);
-    createButton(user_list.length);
+    //createButton(user_list.length);
     pc.onicecandidate = (event => event.candidate ? sendMessage(friendId, yourId, JSON.stringify({ 'ice': event.candidate })) : console.log("Sent All Ice"));
     pc.onaddstream = (event => document.getElementById(friendId).srcObject = event.stream);
     navigator.mediaDevices.getUserMedia({ audio: true, video: true })
@@ -216,6 +216,7 @@ function submitreCAPTCHAForm() {
 function verifyCaptcha() {
     console.log("verified");
     document.getElementById('g-recaptcha-error').innerHTML = '';
+    createButton(user_list.length);
 }
 
 function getToken() {
