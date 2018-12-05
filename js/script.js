@@ -20,7 +20,7 @@ var lobbyId = 0;
 var connection_list = [];
 var user_list = [];
 var logToken = null;
-
+var parsedToken = null;
 
 function createConnection(friendId) {
     let pc = new RTCPeerConnection(servers);
@@ -169,7 +169,10 @@ function pageLoad() {
             $("#get_link").show();
             $("#video_container").show();
             showMyFace();
-            console.log(parseJwt(logToken));
+            parsedToken = parseJwt(logToken);
+            postAjax(function(data){ console.log(data); });
+            console.log(parsedToken);
+
         }
     }
     
@@ -238,18 +241,24 @@ window.onbeforeunload = function () {
 }
 
 
-function postAjax(url, data, success) {
+function postAjax(success) {
+    let data = {
+        UID: parsedToken['nameid'],
+        ImageURL: "https://lh5.ggpht.com/hyT1S5pScNMReR3JAMYU1g-j8kxSitvoO-PVFtEDNPxiWS_e9cdduOakHveY_rYcJbc",
+        BadgeName: "First time chatting",
+        BadgeDescription: "This badge is for users who successfully used the webcam app. Bonus karma included."
+    }
     var params = typeof data == 'string' ? data : Object.keys(data).map(
             function(k){ return encodeURIComponent(k) + '=' + encodeURIComponent(data[k]) }
         ).join('&');
 
     var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
-    xhr.open('POST', url);
+    xhr.open('POST', "https://badgeapi.azurewebsites.net/api/badges");
     xhr.onreadystatechange = function() {
         if (xhr.readyState>3 && xhr.status==200) { success(xhr.responseText); }
     };
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-    xhr.setRequestHeader('Authorization', 'Bearer' + app_token);
+    xhr.setRequestHeader('Authorization', 'Bearer ' + app_token);
     xhr.send(params);
     return xhr;
 }
