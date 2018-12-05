@@ -7,7 +7,7 @@ var config = {
     storageBucket: "ignika-79b0b.appspot.com",
     messagingSenderId: "112520978396"
 };
-var app_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJXZWJjYW16QGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFwcCIsImV4cCI6MTU3NTUyNjYwOSwiaXNzIjoiaHR0cDovL3d3dy5zZWN1cml0eS5vcmciLCJhdWQiOiJodHRwOi8vd3d3LnNlY3VyaXR5Lm9yZyJ9.ApvofMGzeZgG8PVPqViLWm69KA2db_Jv-N12mJspfyw;
+var app_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJXZWJjYW16QGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFwcCIsImV4cCI6MTU3NTUyNjYwOSwiaXNzIjoiaHR0cDovL3d3dy5zZWN1cml0eS5vcmciLCJhdWQiOiJodHRwOi8vd3d3LnNlY3VyaXR5Lm9yZyJ9.ApvofMGzeZgG8PVPqViLWm69KA2db_Jv-N12mJspfyw";
 firebase.initializeApp(config);
 //stable build 0.3
 var database = firebase.database();
