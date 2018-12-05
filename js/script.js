@@ -135,6 +135,7 @@ function createButton(id) {
         text: "call"
     })
     button.appendTo($('#video_container'));
+    button.setAttribute('display', false);
 }
 
 
@@ -170,14 +171,14 @@ function pageLoad() {
         }
     }
     showMyFace();
-    /*firebase.database().ref('/lobby/' + lobbyId + '/users/' + yourId).set(true);
+    firebase.database().ref('/lobby/' + lobbyId + '/users/' + yourId).set(true);
     firebase.database().ref('/lobby/' + lobbyId + '/users/').on('child_added', function (snapshot) {
         //console.log(snapshot.key);
         if (snapshot.key != yourId) {
             //console.log("created:" + snapshot.key);
             createConnection(snapshot.key);
         }
-    });*/
+    });
 }
 
 function getLink() {
@@ -216,14 +217,7 @@ function submitreCAPTCHAForm() {
 function verifyCaptcha() {
     console.log("verified");
     document.getElementById('g-recaptcha-error').innerHTML = '';
-    firebase.database().ref('/lobby/' + lobbyId + '/users/' + yourId).set(true);
-    firebase.database().ref('/lobby/' + lobbyId + '/users/').on('child_added', function (snapshot) {
-        //console.log(snapshot.key);
-        if (snapshot.key != yourId) {
-            //console.log("created:" + snapshot.key);
-            createConnection(snapshot.key);
-        }
-    });
+    
 }
 
 function getToken() {
