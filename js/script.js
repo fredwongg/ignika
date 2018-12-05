@@ -158,7 +158,7 @@ function pageLoad() {
     if (urlId) {
         //database = database.ref('lobby/'+ urlId);
         lobbyId = urlId;
-        //$("#reCAPTCHA_form").show();
+        $("#reCAPTCHA_form").show();
     } else {
         if (!logToken) {
             $("#video_container").hide();
