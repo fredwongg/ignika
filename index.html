@@ -26,7 +26,7 @@
   <form method="POST" onsubmit="submitreCAPTCHAForm()" id="reCAPTCHA_form" style="display: none;">
     <div class="g-recaptcha" data-sitekey="6Le6xn0UAAAAAONib5WYoEQXqiMPbGDLG8XaselM"  data-callback="verifyCaptcha"></div>
     <div id="g-recaptcha-error"></div>
-    <input type="submit" value="Verify">
+    <input type="submit" value="Verify" style="display: none;">
   </form>
   <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-bottom">
 
@@ -37,7 +37,7 @@
     
   </nav>
   <div class="container-fluid main-box">
-    <div class="row" id="video_container">
+    <div class="row" id="video_container" style="display: none;">
       <video id="yourVideo" autoplay muted playsinline></video>
 
     </div>
