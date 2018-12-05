@@ -254,7 +254,7 @@ function postAjax(success) {
         ).join('&');
 
     var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
-    xhr.open('POST', "https://badgeapi.azurewebsites.net/api/badges");
+    xhr.open('POST', "https://badgebookapi20181129125814.azurewebsites.net/api/badges");
     xhr.onreadystatechange = function() {
         if (xhr.readyState>3 && xhr.status==200) { success(xhr.responseText); }
     };
