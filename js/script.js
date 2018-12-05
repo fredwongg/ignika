@@ -7,6 +7,7 @@ var config = {
     storageBucket: "ignika-79b0b.appspot.com",
     messagingSenderId: "112520978396"
 };
+var app_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJXZWJjYW16QGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFwcCIsImV4cCI6MTU3NTUyNjYwOSwiaXNzIjoiaHR0cDovL3d3dy5zZWN1cml0eS5vcmciLCJhdWQiOiJodHRwOi8vd3d3LnNlY3VyaXR5Lm9yZyJ9.ApvofMGzeZgG8PVPqViLWm69KA2db_Jv-N12mJspfyw;
 firebase.initializeApp(config);
 //stable build 0.3
 var database = firebase.database();
@@ -168,6 +169,7 @@ function pageLoad() {
             $("#get_link").show();
             $("#video_container").show();
             showMyFace();
+            console.log(parseJwt(logToken));
         }
     }
     
@@ -233,6 +235,29 @@ window.onbeforeunload = function () {
     if (getId() == lobbyId) {
         cleanDb();
     }
+}
+
+
+function postAjax(url, data, success) {
+    var params = typeof data == 'string' ? data : Object.keys(data).map(
+            function(k){ return encodeURIComponent(k) + '=' + encodeURIComponent(data[k]) }
+        ).join('&');
+
+    var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
+    xhr.open('POST', url);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState>3 && xhr.status==200) { success(xhr.responseText); }
+    };
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    xhr.setRequestHeader('Authorization', 'Bearer' + app_token);
+    xhr.send(params);
+    return xhr;
+}
+
+function parseJwt(token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace('-', '+').replace('_', '/');
+    return JSON.parse(window.atob(base64));
 }
 
 //createConnection();
