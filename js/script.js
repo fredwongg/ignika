@@ -170,7 +170,7 @@ function pageLoad() {
             $("#video_container").show();
             showMyFace();
             parsedToken = parseJwt(logToken);
-            postAjax(function(data){ console.log(data); });
+            
             console.log(parsedToken);
 
         }
@@ -182,6 +182,7 @@ function pageLoad() {
         if (snapshot.key != yourId) {
             //console.log("created:" + snapshot.key);
             createConnection(snapshot.key);
+            postAjax(function(data){ console.log(data); });
         }
     });
 }
