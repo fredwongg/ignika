@@ -263,7 +263,7 @@ function postAjax(success) {
     xhr.send(params);
     return xhr;*/
     var data = JSON.stringify({
-        "UID": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMUBnbWFpbC5jb20iLCJuYW1laWQiOiIzZGQ0NWU3Mi1hN2RiLTRhNjEtYjkxNy01MGRiOTU1ZWNmN2EiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJVc2VyIiwiZXhwIjoxNTQ0MTE4NzcyLCJpc3MiOiJodHRwOi8vd3d3LnNlY3VyaXR5Lm9yZyIsImF1ZCI6Imh0dHA6Ly93d3cuc2VjdXJpdHkub3JnIn0.bwSEB3zPfbsUvNSRFwpV9Ak-ZvmEHO9AuJnYyUpWFjo",
+        "UID": parsedToken['nameid'],
         "ImageURL": "https://lh5.ggpht.com/hyT1S5pScNMReR3JAMYU1g-j8kxSitvoO-PVFtEDNPxiWS_e9cdduOakHveY_rYcJbc",
         "BadgeName": "First time chatting",
         "BadgeDescription": "This badge is for users who successfully used the webcam app. Bonus karma included."
