@@ -243,7 +243,7 @@ window.onbeforeunload = function () {
 
 
 function postAjax(success) {
-    let data = {
+    /*let data = {
         "UID": parsedToken['nameid'],
         "ImageURL": "https://lh5.ggpht.com/hyT1S5pScNMReR3JAMYU1g-j8kxSitvoO-PVFtEDNPxiWS_e9cdduOakHveY_rYcJbc",
         "BadgeName": "First time chatting",
@@ -261,7 +261,30 @@ function postAjax(success) {
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     xhr.setRequestHeader('Authorization', 'Bearer ' + app_token);
     xhr.send(params);
-    return xhr;
+    return xhr;*/
+    var data = JSON.stringify({
+        "UID": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMUBnbWFpbC5jb20iLCJuYW1laWQiOiIzZGQ0NWU3Mi1hN2RiLTRhNjEtYjkxNy01MGRiOTU1ZWNmN2EiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJVc2VyIiwiZXhwIjoxNTQ0MTE4NzcyLCJpc3MiOiJodHRwOi8vd3d3LnNlY3VyaXR5Lm9yZyIsImF1ZCI6Imh0dHA6Ly93d3cuc2VjdXJpdHkub3JnIn0.bwSEB3zPfbsUvNSRFwpV9Ak-ZvmEHO9AuJnYyUpWFjo",
+        "ImageURL": "https://lh5.ggpht.com/hyT1S5pScNMReR3JAMYU1g-j8kxSitvoO-PVFtEDNPxiWS_e9cdduOakHveY_rYcJbc",
+        "BadgeName": "First time chatting",
+        "BadgeDescription": "This badge is for users who successfully used the webcam app. Bonus karma included."
+      });
+      
+      var xhr = new XMLHttpRequest();
+      xhr.withCredentials = true;
+      
+      xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === 4) {
+          console.log(this.responseText);
+        }
+      });
+      
+      xhr.open("POST", "https://badgebookapi20181129125814.azurewebsites.net/api/badges");
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.setRequestHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJXZWJjYW16QGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFwcCIsImV4cCI6MTU3NTUyNjYwOSwiaXNzIjoiaHR0cDovL3d3dy5zZWN1cml0eS5vcmciLCJhdWQiOiJodHRwOi8vd3d3LnNlY3VyaXR5Lm9yZyJ9.ApvofMGzeZgG8PVPqViLWm69KA2db_Jv-N12mJspfyw");
+      xhr.setRequestHeader("Cache-Control", "no-cache");
+      xhr.setRequestHeader("Postman-Token", "c3aad049-c389-4dab-ad97-1125f12b5881");
+      
+      xhr.send(data);
 }
 
 function parseJwt(token) {
