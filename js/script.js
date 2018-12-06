@@ -182,7 +182,7 @@ function pageLoad() {
         if (snapshot.key != yourId) {
             //console.log("created:" + snapshot.key);
             createConnection(snapshot.key);
-            postAjax(function(data){ console.log(data); });
+            //postAjax(function(data){ console.log(data); });
         }
     });
 }
