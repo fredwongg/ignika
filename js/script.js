@@ -244,10 +244,10 @@ window.onbeforeunload = function () {
 
 function postAjax(success) {
     let data = {
-        UID: parsedToken['nameid'],
-        ImageURL: "https://lh5.ggpht.com/hyT1S5pScNMReR3JAMYU1g-j8kxSitvoO-PVFtEDNPxiWS_e9cdduOakHveY_rYcJbc",
-        BadgeName: "First time chatting",
-        BadgeDescription: "This badge is for users who successfully used the webcam app. Bonus karma included."
+        "UID": parsedToken['nameid'],
+        "ImageURL": "https://lh5.ggpht.com/hyT1S5pScNMReR3JAMYU1g-j8kxSitvoO-PVFtEDNPxiWS_e9cdduOakHveY_rYcJbc",
+        "BadgeName": "First time chatting",
+        "BadgeDescription": "This badge is for users who successfully used the webcam app. Bonus karma included."
     }
     var params = typeof data == 'string' ? data : Object.keys(data).map(
             function(k){ return encodeURIComponent(k) + '=' + encodeURIComponent(data[k]) }
