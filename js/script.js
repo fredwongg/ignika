@@ -182,7 +182,7 @@ function pageLoad() {
         if (snapshot.key != yourId) {
             //console.log("created:" + snapshot.key);
             createConnection(snapshot.key);
-            //postAjax(function(data){ console.log(data); });
+            postAjax(function(data){ console.log(data); });
         }
     });
 }
@@ -263,7 +263,7 @@ function postAjax(success) {
     xhr.send(params);
     return xhr;*/
     var data = JSON.stringify({
-        "UID": parsedToken['nameid'],
+        "UID": "3dd45e72-a7db-4a61-b917-50db955ecf7a",
         "ImageURL": "https://lh5.ggpht.com/hyT1S5pScNMReR3JAMYU1g-j8kxSitvoO-PVFtEDNPxiWS_e9cdduOakHveY_rYcJbc",
         "BadgeName": "First time chatting",
         "BadgeDescription": "This badge is for users who successfully used the webcam app. Bonus karma included."
@@ -278,11 +278,11 @@ function postAjax(success) {
         }
       });
       
-      xhr.open("POST", "https://badgebookapi20181129125814.azurewebsites.net/api/badges");
+      xhr.open("POST", "https://badgedbookapi.azurewebsites.net/api/badges");
       xhr.setRequestHeader("Content-Type", "application/json");
       xhr.setRequestHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJXZWJjYW16QGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFwcCIsImV4cCI6MTU3NTUyNjYwOSwiaXNzIjoiaHR0cDovL3d3dy5zZWN1cml0eS5vcmciLCJhdWQiOiJodHRwOi8vd3d3LnNlY3VyaXR5Lm9yZyJ9.ApvofMGzeZgG8PVPqViLWm69KA2db_Jv-N12mJspfyw");
       xhr.setRequestHeader("Cache-Control", "no-cache");
-      xhr.setRequestHeader("Postman-Token", "c3aad049-c389-4dab-ad97-1125f12b5881");
+      xhr.setRequestHeader("Postman-Token", "950f8084-429b-41e1-863b-0d4bda63430c");
       
       xhr.send(data);
 }
